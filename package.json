@@ -1,0 +1,26 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "build:ldo": "ldo build --input src\\.shapes --output src\\.ldo"
+  },
+  "dependencies": {
+    "@ldo/ldo": "^1.0.0-alpha.32",
+    "next": "15.5.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@ldo/cli": "^1.0.0-alpha.32",
+    "@types/jsonld": "^1.5.15",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/shexj": "^2.1.7",
+    "typescript": "^5"
+  }
+}
