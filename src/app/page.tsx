@@ -27,7 +27,8 @@ export default async function Home() {
 
   return (
     <div>
-      {janeProfile.name}
+      <div>this is an LDO demo: {janeProfile.name}</div>
+      <div><a href="solidFetch">click here for a fetch demo</a></div>
     </div>
   );
 }
