@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "build:ldo": "ldo build --input src\\.shapes --output src\\.ldo",
-    "start": "next start",
-    "start:css": "community-solid-server",
-    "start:next": "next start"
+    "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
+    "build:next": "next build --turbopack",
+    "start": "npm run start:css & npm run start:next & npm run start:watch:shapes",
+    "start:css": "community-solid-server -p 3001",
+    "start:next": "next dev --turbopack",
+    "start:watch:shapes": "nodemon --watch src --ext shex --exec 'npm run build:ldo'"
   },
   "dependencies": {
     "@ldo/ldo": "^1.0.0-alpha.32",
@@ -24,6 +24,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/shexj": "^2",
+    "nodemon": "^3.1.10",
     "typescript": "^5"
   }
 }
