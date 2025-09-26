@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:ldo": "ldo build --input src\\.shapes --output src\\.ldo",
     "start": "next start",
-    "build:ldo": "ldo build --input src\\.shapes --output src\\.ldo"
+    "start:css": "community-solid-server",
+    "start:next": "next start"
   },
   "dependencies": {
     "@ldo/ldo": "^1.0.0-alpha.32",
@@ -16,11 +18,12 @@
   },
   "devDependencies": {
     "@ldo/cli": "^1.0.0-alpha.32",
-    "@types/jsonld": "^1.5.15",
+    "@solid/community-server": "^8.0.0-alpha.1",
+    "@types/jsonld": "^1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/shexj": "^2.1.7",
+    "@types/shexj": "^2",
     "typescript": "^5"
   }
 }
