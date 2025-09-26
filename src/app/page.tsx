@@ -8,13 +8,14 @@ import {
   toTurtle,
   set,
 } from "@ldo/ldo";
-import { FoafProfileShapeType } from "../.ldo/foafProfile.shapeTypes";
+import { FoafProfileShapeType } from "../ldo/foafProfile.shapeTypes";
 
 export default async function Home() {
   const rawTurtle = `
   <#me> a <http://xmlns.com/foaf/0.1/Person>;
       <http://xmlns.com/foaf/0.1/name> "Jane Doe".
   `;
+
   const ldoDataset = await parseRdf(rawTurtle, {
     baseIRI: "https://solidweb.me/jane_doe/profile/card",
   });
