@@ -25,7 +25,7 @@ export default async function Home() {
     .fromSubject("https://solidweb.me/jane_doe/profile/card#me");
 
   return (
-    <div>
+    <div>fake
       {janeProfile.name}
     </div>
   );
