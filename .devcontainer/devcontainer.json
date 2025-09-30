@@ -1,0 +1,15 @@
+{
+	"name": "Node.js & TypeScript",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+	"portsAttributes": {
+		"3000": {
+			"label": "Node Server",
+			"onAutoForward": "notify"
+		},
+		"3001": {
+			"label": "Community Solid Server",
+			"onAutoForward": "notify"
+		}
+	},
+	"postCreateCommand": "npm i && npm start"
+}
