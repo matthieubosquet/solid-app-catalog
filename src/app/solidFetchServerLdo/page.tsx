@@ -9,7 +9,7 @@ export default async function Home() {
     const ldoDataset = await parseRdf(text);
     const profile = ldoDataset
         .usingType(FoafProfileShapeType)
-        .fromSubject("http://example.com/S");
+        .fromSubject("http://example.org/a");
 
     return (
         <div className={styles.defaultClass}>
@@ -23,11 +23,11 @@ export default async function Home() {
                 <dt>knows</dt>
                 <dd>
                     <ul>{
-                        profile.knows?.map(otherProfile =>
-                            <li>
-                                <dl key={otherProfile["@id"]}>
+                        profile.knows?.map(knownProfile =>
+                            <li key={knownProfile["@id"]}>
+                                <dl>
                                     <dt>name</dt>
-                                    <dd>{otherProfile.name}</dd>
+                                    <dd>{knownProfile.name}</dd>
                                 </dl>
                             </li>
                         )

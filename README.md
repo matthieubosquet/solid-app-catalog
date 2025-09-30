@@ -10,7 +10,7 @@ https://github.com/matthieubosquet/solid-app-catalog/blob/7018ac5afd3f7cfabb47e3
 1. Run `npm i`
 2. Run `npm start`
     - Starts LDO watching for changes to *.shex to regenerate Data Objects
-    - Starts next in dev mode watching for changes to *.ts
+    - Starts next in dev mode watching for changes to *.ts http://localhost:3000
     - Starts a Community Solid Server instance with scaffolded pod
         - Login: http://localhost:3001/.account/login/password/
             - email: a@a.a

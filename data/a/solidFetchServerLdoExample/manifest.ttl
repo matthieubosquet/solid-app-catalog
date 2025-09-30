@@ -1,13 +1,13 @@
-@prefix : <http://xmlns.com/foaf/0.1/> .
+prefix : <http://xmlns.com/foaf/0.1/>
+prefix ex: <http://example.org/>
 
-<http://example.com/S>
+ex:a
     :name "NAME1" ;
     :img "IMG" ;
-    :knows
-        [
-            :name "NAME2" ;
-        ],
-        [
-            :name "NAME3" ;
-        ]
+    :knows ex:a, ex:b ;
 .
+
+# Note: using named nodes to avoid next react error (requires unique key for children of ul)
+ex:b :name "NAME2" .
+
+ex:c :name "NAME3" .
