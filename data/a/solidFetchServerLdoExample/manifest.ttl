@@ -1,0 +1,13 @@
+@prefix : <http://xmlns.com/foaf/0.1/> .
+
+<http://example.com/S>
+    :name "NAME1" ;
+    :img "IMG" ;
+    :knows
+        [
+            :name "NAME2" ;
+        ],
+        [
+            :name "NAME3" ;
+        ]
+.

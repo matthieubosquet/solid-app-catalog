@@ -1,0 +1,14 @@
+@prefix acl: <http://www.w3.org/ns/auth/acl#>.
+@prefix acp: <http://www.w3.org/ns/solid/acp#>.
+
+[
+    acp:resource <.> ;
+    acp:memberAccessControl [
+        acp:apply [
+            acp:allow acl:Read ;
+            acp:anyOf [
+                acp:agent acp:PublicAgent ;
+            ] ;
+        ] ;
+    ] ;
+] .

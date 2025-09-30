@@ -29,6 +29,7 @@ export default async function Home() {
     <div>
       <div>this is an LDO demo: {janeProfile.name}</div>
       <div><a href="solidFetch">click here for a fetch demo</a></div>
+      <div><a href="solidFetchServerLdo">click here for a server fetch ldo demo (requires CSS running)</a></div>
     </div>
   );
 }
