@@ -6,7 +6,7 @@
     "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
     "build:next": "next build --turbopack",
     "start": "concurrently \"npm:start:*\"",
-    "start:css": "community-solid-server -p 3001 -c @css:config/file-acp.json -f data/",
+    "start:css": "community-solid-server -p 3001 -c .cssconfig.json -f data/",
     "start:ldo": "nodemon --watch src --ext shex --exec \"npm run build:ldo\"",
     "start:next": "next dev --turbopack"
   },

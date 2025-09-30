@@ -3,7 +3,7 @@ import { FoafProfileShapeType } from "../../ldo/foafProfile.shapeTypes";
 import styles from "./page.module.css";
 
 export default async function Home() {
-    var response = await fetch("http://localhost:3001/a/solidFetchServerLdoExample/manifest.ttl")
+    var response = await fetch("http://localhost:3001/solidFetchServerLdoExample/manifest.ttl")
     var text = await response.text()
 
     const ldoDataset = await parseRdf(text);
