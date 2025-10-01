@@ -4,7 +4,7 @@ prefix ex: <http://example.org/>
 ex:a
     :name "NAME1" ;
     :img "IMG" ;
-    :knows ex:a, ex:b ;
+    :knows ex:b, ex:c ;
 .
 
 # Note: using named nodes to avoid next react error (requires unique key for children of ul)
