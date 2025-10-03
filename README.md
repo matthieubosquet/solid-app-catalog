@@ -16,3 +16,13 @@ https://github.com/matthieubosquet/solid-app-catalog/blob/7018ac5afd3f7cfabb47e3
             - email: a@a.a
             - password: a;
         - Pod: http://localhost:3001/a/
+
+## Architecture
+
+Solid defines standard storage + access control.
+
+In Solid there are two main competing access control standards: WAC and ACP. We chose ACP.
+
+We stir away from hierarchical modelling, resource containment is designed to enable adequate access control of resources to serve functionality.
+
+Manifests resources are publicly readable resources designed for traversal needs.
