@@ -2,5 +2,10 @@ PREFIX : <urn:example:/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 :Model EXTRA a {
-  :name xsd:string * ;
+  :child @:Child * ;
+}
+
+:Child EXTRA a {
+  :p1 xsd:string ;
+  :p2 xsd:string ;
 }

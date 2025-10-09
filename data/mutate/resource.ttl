@@ -1,1 +1,6 @@
-<http://example.com/a> <urn:example:/name> "initial value" .
+<http://example.com/a> <urn:example:/child> _:b1 .
+<http://example.com/a> <urn:example:/child> _:b2 .
+_:b1 <urn:example:/p1> "child1 P1" .
+_:b1 <urn:example:/p2> "child1 P2" .
+_:b2 <urn:example:/p1> "child2 P1" .
+_:b2 <urn:example:/p2> "child2 P2" .

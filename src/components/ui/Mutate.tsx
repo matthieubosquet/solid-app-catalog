@@ -5,14 +5,15 @@ import { login, getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { ModelShapeType } from "../../ldo/Model.shapeTypes"
-import { Model } from "@/ldo/Model.typings";
+import { Model, Child } from "@/ldo/Model.typings";
 
 const resourceUri = "http://localhost:3001/mutate/resource.ttl"
 
 export default function Mutate() {
-  const [newName, setNewName] = useState("")
+  const [newP1, setNewP1] = useState("")
+  const [newP2, setNewP2] = useState("")
   const [ldo, setLdo] = useState<Model>()
-  const [magic, setMagic] = useState("")
+  const [, setMagic] = useState("")
 
   async function authenticate() {
     await handleIncomingRedirect()
@@ -52,18 +53,23 @@ export default function Mutate() {
 
     alert("saved")
   }
-  function removeName(n: string) {
-    ldo!.name?.delete(n)
+
+  function removeChild(n: Child) {
+    ldo!.child?.delete(n)
 
     setMagic(Math.random().toString())
   }
 
-  function addName(e: FormEvent) {
+  function addChild(e: FormEvent) {
     e.preventDefault()
 
-    ldo!.name?.add(newName)
+    ldo!.child?.add({
+      p1: newP1,
+      p2: newP2
+    })
 
-    setNewName("")
+    setNewP1("")
+    setNewP2("")
   }
 
   useEffect(() => {
@@ -77,21 +83,32 @@ export default function Mutate() {
         <div>
 
           <ul>
-            {ldo.name?.map(n =>
-              <li key={n}>
-                <span>name: {n}</span>
-                <button onClick={() => removeName(n)}>remove</button>
+            {ldo.child?.map(c =>
+              <li key={c["@id"]}>
+                <dl>
+                  <dt>p1</dt><dd>{c.p1}</dd>
+                  <dt>p2</dt><dd>{c.p2}</dd>
+                </dl>
+                <button onClick={() => removeChild(c)}>remove</button>
               </li>)
             }
           </ul>
 
-          <form onSubmit={addName}>
+          <form onSubmit={addChild}>
             <fieldset>
-              <legend>new name</legend>
-              <label>
-                <span><u>n</u>ame</span>
-                <input accessKey="n" required value={newName} onChange={e => setNewName(e.target.value)} />
-              </label>
+              <legend>new child</legend>
+              <div>
+                <label>
+                  <span>p1</span>
+                  <input required value={newP1} onChange={e => setNewP1(e.target.value)} />
+                </label>
+              </div>
+              <div>
+                <label>
+                  <span>p2</span>
+                  <input required value={newP2} onChange={e => setNewP2(e.target.value)} />
+                </label>
+              </div>
               <button>add</button>
             </fieldset>
           </form>
