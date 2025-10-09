@@ -54,8 +54,10 @@ export default function Mutate() {
     alert("saved")
   }
 
-  function removeChild(n: Child) {
-    ldo!.child?.delete(n)
+  function removeChild(child: Child) {
+    child.p1 = undefined
+    child.p2 = undefined
+    ldo!.child?.delete(child)
 
     setMagic(Math.random().toString())
   }
