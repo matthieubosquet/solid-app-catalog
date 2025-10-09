@@ -10,7 +10,7 @@ const resourceUri="http://localhost:3001/mutate/resource.ttl"
 
 export default function Mutate() {
   const [name, setName] = useState("")
-  const [ldo, setLdo] = useState<FoafProfile>() // TODO: Initial value?
+  const [ldo, setLdo] = useState<FoafProfile>({})
 
   async function authenticate() {
     await handleIncomingRedirect()
@@ -34,11 +34,11 @@ export default function Mutate() {
     const ldo = dataset.usingType(FoafProfileShapeType).fromSubject("http://example.com/a")
 
     setLdo(ldo)
-    setName(ldo.name ?? "")
+    setName(ldo.name)
   }
 
   async function onClick() {
-    (ldo as FoafProfile).name = name
+    ldo.name = name
 
     await getDefaultSession().fetch(
       resourceUri,
