@@ -1,1 +1,1 @@
-<http://example.com/a> <http://xmlns.com/foaf/0.1/name> "initial value" .
+<http://example.com/a> <urn:example:/name> "initial value" .

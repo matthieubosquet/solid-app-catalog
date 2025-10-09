@@ -3,14 +3,16 @@
 import { parseRdf, toTurtle, } from "@ldo/ldo";
 import { login, getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-client-authn-browser"
 import { useEffect, useState } from 'react'
-import { FoafProfileShapeType } from "../../ldo/foafProfile.shapeTypes"
-import { FoafProfile } from "@/ldo/foafProfile.typings";
+import type { FormEvent } from 'react'
+import { ModelShapeType } from "../../ldo/Model.shapeTypes"
+import { Model } from "@/ldo/Model.typings";
 
-const resourceUri="http://localhost:3001/mutate/resource.ttl"
+const resourceUri = "http://localhost:3001/mutate/resource.ttl"
 
 export default function Mutate() {
-  const [name, setName] = useState("")
-  const [ldo, setLdo] = useState<FoafProfile>({})
+  const [newName, setNewName] = useState("")
+  const [ldo, setLdo] = useState<Model>()
+  const [magic, setMagic] = useState("")
 
   async function authenticate() {
     await handleIncomingRedirect()
@@ -31,15 +33,12 @@ export default function Mutate() {
     const response = await fetch(resourceUri)
     const text = await response.text()
     const dataset = await parseRdf(text);
-    const ldo = dataset.usingType(FoafProfileShapeType).fromSubject("http://example.com/a")
+    const ldo = dataset.usingType(ModelShapeType).fromSubject("http://example.com/a")
 
     setLdo(ldo)
-    setName(ldo.name)
   }
 
   async function onClick() {
-    ldo.name = name
-
     await getDefaultSession().fetch(
       resourceUri,
       {
@@ -50,6 +49,21 @@ export default function Mutate() {
         },
         body: await toTurtle(ldo!)
       })
+
+    alert("saved")
+  }
+  function removeName(n: string) {
+    ldo!.name?.delete(n)
+
+    setMagic(Math.random().toString())
+  }
+
+  function addName(e: FormEvent) {
+    e.preventDefault()
+
+    ldo!.name?.add(newName)
+
+    setNewName("")
   }
 
   useEffect(() => {
@@ -59,8 +73,36 @@ export default function Mutate() {
 
   return (
     <div>
-      <input value={name} onChange={e => setName(e.target.value)}></input>
-      <button onClick={onClick}>save</button>
+      {ldo &&
+        <div>
+
+          <ul>
+            {ldo.name?.map(n =>
+              <li key={n}>
+                <span>name: {n}</span>
+                <button onClick={() => removeName(n)}>remove</button>
+              </li>)
+            }
+          </ul>
+
+          <form onSubmit={addName}>
+            <fieldset>
+              <legend>new name</legend>
+              <label>
+                <span><u>n</u>ame</span>
+                <input accessKey="n" required value={newName} onChange={e => setNewName(e.target.value)} />
+              </label>
+              <button>add</button>
+            </fieldset>
+          </form>
+
+          <button accessKey="s" onClick={onClick}><u>s</u>ave</button>
+
+        </div>
+      }
     </div>
+
+
+
   )
 }
