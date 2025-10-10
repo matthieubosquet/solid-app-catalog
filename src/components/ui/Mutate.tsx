@@ -15,6 +15,7 @@ export default function Mutate() {
   const [newDescription, setNewDescription] = useState("")
   const [newFeatured, setNewFeatured] = useState(false)
   const [newWebsite, setNewWebsite] = useState("")
+  const [newThumbnail, setNewThumbnail] = useState<File>()
   const [apps, setApps] = useState<SolidApps>()
   const [, setMagic] = useState("")
 
@@ -57,30 +58,58 @@ export default function Mutate() {
     alert("saved")
   }
 
-  function removeApp(app: SolidApp) {
-    app.name = undefined
-    app.description = undefined
-    app.featured = undefined
-    app.website = undefined
+  async function removeApp(app: SolidApp) {
+    await deleteThumbnail(app.thumbnail!["@id"])
+
+    delete app.name
+    delete app.description
+    delete app.featured
+    delete app.website
+    delete app.thumbnail
+
     apps!.app?.delete(app)
+
+    save()
 
     setMagic(Math.random().toString())
   }
 
-  function addApp(e: FormEvent) {
+  async function addApp(e: FormEvent) {
     e.preventDefault()
 
     apps!.app?.add({
       name: newName,
       description: newDescription,
       featured: newFeatured,
-      website: { "@id": newWebsite }
+      website: { "@id": newWebsite },
+      thumbnail: { "@id": await createNewThumbnail() }
     })
 
     setNewName("")
     setNewDescription("")
     setNewFeatured(false)
     setNewWebsite("")
+    // TODO: How to reset new thumbnail input?
+
+    save()
+  }
+
+  async function createNewThumbnail(): Promise<string> {
+    const thumbnailUploadResponse = await getDefaultSession().fetch(
+      "http://localhost:3001/mutate/", // TODO: Extract
+      {
+        method: "post",
+        headers: {
+          "Content-Type": newThumbnail?.type!,
+        },
+        body: newThumbnail
+      })
+
+    return thumbnailUploadResponse.headers.get("Location")!
+  }
+
+  async function deleteThumbnail(thumbnail: string): Promise<void> {
+    await getDefaultSession().fetch(thumbnail, { method: "delete" })
   }
 
   useEffect(() => {
@@ -112,6 +141,11 @@ export default function Mutate() {
                   <div>
                     <dt>website</dt>
                     <dd><a href={app.website!["@id"]}>{app.website!["@id"]}</a></dd>
+                  </div>
+                  <div>
+                    <dt>thumbnail</dt>
+                    {/* TODO: remove style */}
+                    <dd><img src={app.thumbnail!["@id"]} style={{ maxWidth: 100, maxHeight: 100 }}></img></dd>
                   </div>
                 </dl>
                 <button onClick={() => removeApp(app)}>remove</button>
@@ -146,11 +180,15 @@ export default function Mutate() {
                   <input required type="url" value={newWebsite} onChange={e => setNewWebsite(e.target.value)} />
                 </label>
               </div>
+              <div>
+                <label>
+                  <span>thumbnail</span>
+                  <input required type="file" onChange={e => setNewThumbnail(e.target.files![0])} />
+                </label>
+              </div>
               <button accessKey="a"><u>a</u>dd</button>
             </fieldset>
           </form>
-
-          <button accessKey="s" onClick={save}><u>s</u>ave</button>
 
         </div>
       }
