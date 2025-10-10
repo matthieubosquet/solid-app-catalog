@@ -4,15 +4,18 @@ import { parseRdf, toTurtle, } from "@ldo/ldo";
 import { login, getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-client-authn-browser"
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { ModelShapeType } from "../../ldo/Model.shapeTypes"
-import { Model, Child } from "@/ldo/Model.typings";
+import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
+import { SolidApps, SolidApp } from "@/ldo/Model.typings";
 
 const resourceUri = "http://localhost:3001/mutate/resource.ttl"
+const appsUri = "urn:example:solid-apps"
 
 export default function Mutate() {
-  const [newP1, setNewP1] = useState("")
-  const [newP2, setNewP2] = useState("")
-  const [ldo, setLdo] = useState<Model>()
+  const [newName, setNewName] = useState("")
+  const [newDescription, setNewDescription] = useState("")
+  const [newFeatured, setNewFeatured] = useState(false)
+  const [newWebsite, setNewWebsite] = useState("")
+  const [apps, setApps] = useState<SolidApps>()
   const [, setMagic] = useState("")
 
   async function authenticate() {
@@ -34,12 +37,12 @@ export default function Mutate() {
     const response = await fetch(resourceUri)
     const text = await response.text()
     const dataset = await parseRdf(text);
-    const ldo = dataset.usingType(ModelShapeType).fromSubject("http://example.com/a")
+    const solidApps = dataset.usingType(SolidAppsShapeType).fromSubject(appsUri)
 
-    setLdo(ldo)
+    setApps(solidApps)
   }
 
-  async function onClick() {
+  async function save() {
     await getDefaultSession().fetch(
       resourceUri,
       {
@@ -48,30 +51,36 @@ export default function Mutate() {
           "Content-Type": "text/turtle",
           "Link": "<http://www.w3.org/ns/ldp#RDFSource>; rel=\"type\"",
         },
-        body: await toTurtle(ldo!)
+        body: await toTurtle(apps!)
       })
 
     alert("saved")
   }
 
-  function removeChild(child: Child) {
-    child.p1 = undefined
-    child.p2 = undefined
-    ldo!.child?.delete(child)
+  function removeApp(app: SolidApp) {
+    app.name = undefined
+    app.description = undefined
+    app.featured = undefined
+    app.website = undefined
+    apps!.app?.delete(app)
 
     setMagic(Math.random().toString())
   }
 
-  function addChild(e: FormEvent) {
+  function addApp(e: FormEvent) {
     e.preventDefault()
 
-    ldo!.child?.add({
-      p1: newP1,
-      p2: newP2
+    apps!.app?.add({
+      name: newName,
+      description: newDescription,
+      featured: newFeatured,
+      website: { "@id": newWebsite }
     })
 
-    setNewP1("")
-    setNewP2("")
+    setNewName("")
+    setNewDescription("")
+    setNewFeatured(false)
+    setNewWebsite("")
   }
 
   useEffect(() => {
@@ -81,41 +90,67 @@ export default function Mutate() {
 
   return (
     <div>
-      {ldo &&
+      {apps &&
         <div>
 
           <ul>
-            {ldo.child?.map(c =>
-              <li key={c["@id"]}>
+            {apps.app?.map(app =>
+              <li key={app.website["@id"]}>
                 <dl>
-                  <dt>p1</dt><dd>{c.p1}</dd>
-                  <dt>p2</dt><dd>{c.p2}</dd>
+                  <div>
+                    <dt>name</dt>
+                    <dd>{app.name}</dd>
+                  </div>
+                  <div>
+                    <dt>description</dt>
+                    <dd>{app.description}</dd>
+                  </div>
+                  <div>
+                    <dt>featured</dt>
+                    <dd><input type="checkbox" checked={app.featured} disabled></input></dd>
+                  </div>
+                  <div>
+                    <dt>website</dt>
+                    <dd><a href={app.website["@id"]}>{app.website["@id"]}</a></dd>
+                  </div>
                 </dl>
-                <button onClick={() => removeChild(c)}>remove</button>
+                <button onClick={() => removeApp(app)}>remove</button>
               </li>)
             }
           </ul>
 
-          <form onSubmit={addChild}>
+          <form onSubmit={addApp}>
             <fieldset>
-              <legend>new child</legend>
+              <legend>new app</legend>
               <div>
                 <label>
-                  <span>p1</span>
-                  <input required value={newP1} onChange={e => setNewP1(e.target.value)} />
+                  <span>name</span>
+                  <input required value={newName} onChange={e => setNewName(e.target.value)} />
                 </label>
               </div>
               <div>
                 <label>
-                  <span>p2</span>
-                  <input required value={newP2} onChange={e => setNewP2(e.target.value)} />
+                  <span>description</span>
+                  <input required value={newDescription} onChange={e => setNewDescription(e.target.value)} />
                 </label>
               </div>
-              <button>add</button>
+              <div>
+                <label>
+                  <span>featured</span>
+                  <input type="checkbox" checked={newFeatured} onChange={e => setNewFeatured(e.target.checked)} />
+                </label>
+              </div>
+              <div>
+                <label>
+                  <span>website</span>
+                  <input required type="url" value={newWebsite} onChange={e => setNewWebsite(e.target.value)} />
+                </label>
+              </div>
+              <button accessKey="a"><u>a</u>dd</button>
             </fieldset>
           </form>
 
-          <button accessKey="s" onClick={onClick}><u>s</u>ave</button>
+          <button accessKey="s" onClick={save}><u>s</u>ave</button>
 
         </div>
       }

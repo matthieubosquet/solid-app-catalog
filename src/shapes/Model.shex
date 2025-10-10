@@ -1,11 +1,14 @@
 PREFIX : <urn:example:/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-:Model {
-  :child @:Child * ;
+:SolidApps {
+  :app @:SolidApp * ;
 }
 
-:Child {
-  :p1 xsd:string ? ;
-  :p2 xsd:string ? ;
+:SolidApp {
+  :website IRI ? ;
+  :name xsd:string ? ;
+  :description xsd:string ? ;
+  :featured xsd:boolean ? ;
+  :thumbnail IRI ? ;
 }
