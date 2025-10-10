@@ -1,39 +1,3 @@
-import { parseRdf } from "@ldo/ldo";
-import { FoafProfileShapeType } from "../../ldo/foafProfile.shapeTypes";
-import styles from "./page.module.css";
-
-export default async function Home() {
-    var response = await fetch("http://localhost:3001/solidFetchServerLdoExample/manifest.ttl")
-    var text = await response.text()
-
-    const ldoDataset = await parseRdf(text);
-    const profile = ldoDataset
-        .usingType(FoafProfileShapeType)
-        .fromSubject("http://example.org/a");
-
-    return (
-        <div className={styles.defaultClass}>
-            <dl>
-                <dt>@id</dt>
-                <dd>{profile["@id"]}</dd>
-                <dt>name</dt>
-                <dd>{profile.name}</dd>
-                <dt>img</dt>
-                <dd>{profile.img}</dd>
-                <dt>knows</dt>
-                <dd>
-                    <ul>{
-                        profile.knows?.map(knownProfile =>
-                            <li key={knownProfile["@id"]}>
-                                <dl>
-                                    <dt>name</dt>
-                                    <dd>{knownProfile.name}</dd>
-                                </dl>
-                            </li>
-                        )
-                    }</ul>
-                </dd>
-            </dl>
-        </div>
-    );
-}
+import { parseRdf } from "@ldo/ldo";import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"export default async function Home() {    var response = await fetch("http://localhost:3001/mutate/resource.ttl")    var text = await response.text()    const ldoDataset = await parseRdf(text);    const solidApps = ldoDataset        .usingType(SolidAppsShapeType)        .fromSubject("urn:example:solid-apps");    return (        <div>            <dl>                <dt>@id</dt>                <dd>{solidApps["@id"]}</dd>                <dt>apps</dt>                <dd>                    <ul>{
+                        solidApps.app?.map(app =>                            <li key={app.website!["@id"]}>                                <dl>                                    <div>                                        <dt>name</dt>                                        <dd>{app.name}</dd>                                    </div>                                    <div>                                        <dt>description</dt>                                        <dd>{app.description}</dd>                                    </div>                                    <div>                                        <dt>featured</dt>                                        <dd><input type="checkbox" checked={app.featured} disabled></input></dd>                                    </div>                                    <div>                                        <dt>website</dt>                                        <dd><a href={app.website!["@id"]}>{app.website!["@id"]}</a></dd>                                    </div>                                    <div>                                        <dt>thumbnail</dt>                                        {/* TODO: remove style */}                                        <dd><img src={app.thumbnail!["@id"]} style={{ maxWidth: 100, maxHeight: 100 }}></img></dd>                                    </div>                                </dl>                            </li>
+                        )                    }</ul>                </dd>            </dl>        </div>    );}
