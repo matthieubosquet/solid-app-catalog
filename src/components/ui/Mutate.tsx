@@ -1,11 +1,11 @@
 'use client'
 
-import { parseRdf, toTurtle, } from "@ldo/ldo";
+import { parseRdf, toTurtle } from "@ldo/ldo"
 import { login, getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-client-authn-browser"
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
-import { SolidApps, SolidApp } from "@/ldo/Model.typings";
+import { SolidApps, SolidApp } from "@/ldo/Model.typings"
 
 const resourceUri = "http://localhost:3001/mutate/resource.ttl"
 const appsUri = "urn:example:solid-apps"
@@ -36,7 +36,7 @@ export default function Mutate() {
   async function getDataInitial() {
     const response = await fetch(resourceUri)
     const text = await response.text()
-    const dataset = await parseRdf(text);
+    const dataset = await parseRdf(text)
     const solidApps = dataset.usingType(SolidAppsShapeType).fromSubject(appsUri)
 
     setApps(solidApps)
@@ -95,7 +95,7 @@ export default function Mutate() {
 
           <ul>
             {apps.app?.map(app =>
-              <li key={app.website["@id"]}>
+              <li key={app.website!["@id"]}>
                 <dl>
                   <div>
                     <dt>name</dt>
@@ -111,7 +111,7 @@ export default function Mutate() {
                   </div>
                   <div>
                     <dt>website</dt>
-                    <dd><a href={app.website["@id"]}>{app.website["@id"]}</a></dd>
+                    <dd><a href={app.website!["@id"]}>{app.website!["@id"]}</a></dd>
                   </div>
                 </dl>
                 <button onClick={() => removeApp(app)}>remove</button>
@@ -155,8 +155,5 @@ export default function Mutate() {
         </div>
       }
     </div>
-
-
-
   )
 }
