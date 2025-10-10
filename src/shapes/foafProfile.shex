@@ -1,9 +1,0 @@
-PREFIX ex: <https://example.com/>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-ex:FoafProfile EXTRA a {
-  foaf:name xsd:string ? ;
-  foaf:img xsd:string ? ;
-  foaf:knows @ex:FoafProfile * ;
-}
