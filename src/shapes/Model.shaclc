@@ -1,0 +1,14 @@
+PREFIX : <urn:example:/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+shape :SolidApps {
+	:app IRI @:SolidApp .
+}
+
+shape :SolidApp {
+	:website IRI [0..1] .
+	:name xsd:string [0..1] .
+	:description xsd:string [0..1] .
+	:featured xsd:boolean [0..1] .
+	:thumbnail IRI [0..1] .
+}
