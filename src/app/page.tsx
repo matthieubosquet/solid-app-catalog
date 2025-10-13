@@ -1,10 +1,9 @@
 import { parseRdf } from "@ldo/ldo"
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
-
-const resourceUri = "http://localhost:3001/mutate/resource.ttl" // TODO: Extract
+import Config from "@/config"
 
 export default async function Home() {
-  var catalogueResponse = await fetch(resourceUri)
+  var catalogueResponse = await fetch(Config.manifestResourceUri)
   var catalogueRdf = await catalogueResponse.text()
   const catalogueDataset = await parseRdf(catalogueRdf)
   const catalogue = catalogueDataset

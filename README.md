@@ -1,3 +1,5 @@
+write about how to do env vars
+
 # solid-app-catalog
 
 Minimal next.js app with LDO.

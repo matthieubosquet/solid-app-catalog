@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
 import { SolidApps, SolidApp } from "@/ldo/Model.typings"
+import Config from "@/config"
 
-const resourceUri = "http://localhost:3001/mutate/resource.ttl"
 const appsUri = "urn:example:solid-apps"
 
 export default function Mutate() {
@@ -35,7 +35,7 @@ export default function Mutate() {
   }
 
   async function getDataInitial() {
-    const response = await fetch(resourceUri)
+    const response = await fetch(Config.manifestResourceUri)
     const text = await response.text()
     const dataset = await parseRdf(text)
     const solidApps = dataset.usingType(SolidAppsShapeType).fromSubject(appsUri)
@@ -45,7 +45,7 @@ export default function Mutate() {
 
   async function save() {
     await getDefaultSession().fetch(
-      resourceUri,
+      Config.manifestResourceUri,
       {
         method: "put",
         headers: {
@@ -96,7 +96,7 @@ export default function Mutate() {
 
   async function createNewThumbnail(): Promise<string> {
     const thumbnailUploadResponse = await getDefaultSession().fetch(
-      "http://localhost:3001/mutate/", // TODO: Extract
+      Config.baseUri,
       {
         method: "post",
         headers: {
