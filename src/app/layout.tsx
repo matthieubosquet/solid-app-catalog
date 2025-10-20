@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Solid App Catalogue",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html>
@@ -16,5 +16,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }

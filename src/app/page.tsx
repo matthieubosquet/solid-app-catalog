@@ -1,10 +1,10 @@
 import { parseRdf } from "@ldo/ldo"
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
-import Config from "@/config"
+import { Config } from "@/Config"
 
 export default async function Home() {
-  var catalogueResponse = await fetch(Config.manifestResourceUri)
-  var catalogueRdf = await catalogueResponse.text()
+  const catalogueResponse = await fetch(Config.manifestResourceUri)
+  const catalogueRdf = await catalogueResponse.text()
   const catalogueDataset = await parseRdf(catalogueRdf)
   const catalogue = catalogueDataset
     .usingType(SolidAppsShapeType)

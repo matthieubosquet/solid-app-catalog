@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
 import { SolidApps, SolidApp } from "@/ldo/Model.typings"
-import Config from "@/config"
+import { Config } from "@/Config"
 
 const appsUri = "urn:example:solid-apps"
 
@@ -100,7 +100,7 @@ export default function Mutate() {
       {
         method: "post",
         headers: {
-          "Content-Type": newThumbnail?.type!,
+          "Content-Type": newThumbnail?.type ?? "application/octet-stream",
         },
         body: newThumbnail
       })
