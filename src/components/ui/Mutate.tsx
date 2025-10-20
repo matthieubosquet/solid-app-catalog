@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
 import { SolidApps, SolidApp } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
+import { renderCatalogue } from "@/renderCatalogue";
 
 const appsUri = "urn:example:solid-apps";
 
@@ -134,65 +135,7 @@ export default function Mutate() {
         <div>
             {apps && (
                 <div>
-                    <ul>
-                        {apps.app?.map((app) => {
-                            if (!app.website) {
-                                throw new Error("website is required");
-                            }
-                            if (!app.thumbnail) {
-                                throw new Error("thumbnail is required");
-                            }
-
-                            return (
-                                <li key={app.website["@id"]}>
-                                    <dl>
-                                        <div>
-                                            <dt>name</dt>
-                                            <dd>{app.name}</dd>
-                                        </div>
-                                        <div>
-                                            <dt>description</dt>
-                                            <dd>{app.description}</dd>
-                                        </div>
-                                        <div>
-                                            <dt>featured</dt>
-                                            <dd>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={app.featured}
-                                                    disabled
-                                                />
-                                            </dd>
-                                        </div>
-                                        <div>
-                                            <dt>website</dt>
-                                            <dd>
-                                                <a href={app.website["@id"]}>
-                                                    {app.website["@id"]}
-                                                </a>
-                                            </dd>
-                                        </div>
-                                        <div>
-                                            <dt>thumbnail</dt>
-                                            <dd>
-                                                {/* TODO: remove style */}
-                                                <img
-                                                    src={app.thumbnail["@id"]}
-                                                    style={{
-                                                        maxWidth: 100,
-                                                        maxHeight: 100,
-                                                    }}
-                                                />
-                                            </dd>
-                                        </div>
-                                    </dl>
-                                    <button onClick={() => removeApp(app)}>
-                                        remove
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    {renderCatalogue(apps)}
 
                     <form onSubmit={addApp}>
                         <fieldset>
