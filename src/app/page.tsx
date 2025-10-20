@@ -2,10 +2,10 @@ import { parseRdf } from "@ldo/ldo";
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
 import type { SolidApps } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
-import { Catalogue } from "@/components/ui/Catalogue";
+import { CatalogueViewer } from "@/components/ui/CatalogueViewer";
 
 export default async function Home() {
-    return <Catalogue data={await fetchCatalogue()} />;
+    return <CatalogueViewer data={await fetchCatalogue()} />;
 }
 
 async function fetchCatalogue(): Promise<SolidApps> {

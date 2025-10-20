@@ -11,11 +11,11 @@ import { useEffect, useState } from "react";
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
 import { SolidApps, SolidApp } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
-import { Catalogue } from "@/components/ui/Catalogue";
+import { CatalogueViewer } from "@/components/ui/CatalogueViewer";
 
-const appsUri = "urn:example:solid-apps";
+const appsUri = "urn:example:solid-apps"; // TODO: Config
 
-export function Mutate() {
+export function CatalogueEditor() {
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
     const [newFeatured, setNewFeatured] = useState(false);
@@ -130,86 +130,82 @@ export function Mutate() {
     }, []);
 
     return (
-        <div>
-            {apps && (
-                <div>
-                    <Catalogue data={apps} deleteHandler={removeApp} />
+        apps && (
+            <div>
+                <CatalogueViewer data={apps} deleteHandler={removeApp} />
 
-                    <form onSubmit={addApp}>
-                        <fieldset>
-                            <legend>new app</legend>
-                            <div>
-                                <label>
-                                    <span>name</span>
-                                    <input
-                                        required
-                                        value={newName}
-                                        onChange={(e) =>
-                                            setNewName(e.target.value)
-                                        }
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <span>description</span>
-                                    <input
-                                        required
-                                        value={newDescription}
-                                        onChange={(e) =>
-                                            setNewDescription(e.target.value)
-                                        }
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <span>featured</span>
-                                    <input
-                                        type="checkbox"
-                                        checked={newFeatured}
-                                        onChange={(e) =>
-                                            setNewFeatured(e.target.checked)
-                                        }
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <span>website</span>
-                                    <input
-                                        required
-                                        type="url"
-                                        value={newWebsite}
-                                        onChange={(e) =>
-                                            setNewWebsite(e.target.value)
-                                        }
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <span>thumbnail</span>
-                                    <input
-                                        required
-                                        type="file"
-                                        onChange={(e) =>
-                                            setNewThumbnail(
-                                                e.target.files
-                                                    ? e.target.files[0]
-                                                    : undefined
-                                            )
-                                        }
-                                    />
-                                </label>
-                            </div>
-                            <button accessKey="a">
-                                <u>a</u>dd
-                            </button>
-                        </fieldset>
-                    </form>
-                </div>
-            )}
-        </div>
+                <form onSubmit={addApp}>
+                    <fieldset>
+                        <legend>new app</legend>
+                        <div>
+                            <label>
+                                <span>name</span>
+                                <input
+                                    required
+                                    value={newName}
+                                    onChange={(e) => setNewName(e.target.value)}
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>description</span>
+                                <input
+                                    required
+                                    value={newDescription}
+                                    onChange={(e) =>
+                                        setNewDescription(e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>featured</span>
+                                <input
+                                    type="checkbox"
+                                    checked={newFeatured}
+                                    onChange={(e) =>
+                                        setNewFeatured(e.target.checked)
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>website</span>
+                                <input
+                                    required
+                                    type="url"
+                                    value={newWebsite}
+                                    onChange={(e) =>
+                                        setNewWebsite(e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>thumbnail</span>
+                                <input
+                                    required
+                                    type="file"
+                                    onChange={(e) =>
+                                        setNewThumbnail(
+                                            e.target.files
+                                                ? e.target.files[0]
+                                                : undefined
+                                        )
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <button accessKey="a">
+                            <u>a</u>dd
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+        )
     );
 }

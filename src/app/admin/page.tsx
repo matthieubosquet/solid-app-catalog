@@ -1,5 +1,5 @@
-import { Mutate } from "@/components/ui/Mutate";
+import { CatalogueEditor } from "@/components/ui/CatalogueEditor";
 
 export default async function Home() {
-    return <Mutate />;
+    return <CatalogueEditor />;
 }

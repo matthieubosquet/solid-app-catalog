@@ -7,7 +7,7 @@ interface Props {
     deleteHandler?: AppHandler;
 }
 
-export function Catalogue({ data, deleteHandler }: Props) {
+export function CatalogueViewer({ data, deleteHandler }: Props) {
     return <ul>{data.app?.map((app) => renderApp(app, deleteHandler))}</ul>;
 }
 
