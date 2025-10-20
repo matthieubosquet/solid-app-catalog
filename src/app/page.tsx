@@ -3,9 +3,10 @@ import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
 import { Config } from "@/Config"
 
 export default async function Home() {
-  const catalogueResponse = await fetch(Config.manifestResourceUri)
+  const catalogueManifestUri = new URL(Config.manifestResourceUri, Config.baseUri)
+  const catalogueResponse = await fetch(catalogueManifestUri)
   const catalogueRdf = await catalogueResponse.text()
-  const catalogueDataset = await parseRdf(catalogueRdf)
+  const catalogueDataset = await parseRdf(catalogueRdf, { baseIRI: Config.baseUri })
   const catalogue = catalogueDataset
     .usingType(SolidAppsShapeType)
     .fromSubject("urn:example:solid-apps")

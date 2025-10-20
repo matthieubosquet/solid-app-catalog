@@ -4,9 +4,9 @@
   _:b3 <urn:example:/description> "app1 description" .
   _:b3 <urn:example:/featured> true .
   _:b3 <urn:example:/website> <http://app1.com/> .
-  _:b3 <urn:example:/thumbnail> <http://localhost:3001/mutate/b9f04420-55e6-4631-a8db-ab1dbb0f420d> .
+  _:b3 <urn:example:/thumbnail> <b9f04420-55e6-4631-a8db-ab1dbb0f420d> .
   _:b4 <urn:example:/name> "app2 name" .
   _:b4 <urn:example:/description> "app2 description" .
   _:b4 <urn:example:/featured> false .
   _:b4 <urn:example:/website> <http://app2.com/> .
-  _:b4 <urn:example:/thumbnail> <http://localhost:3001/mutate/6622ddb0-45ac-4c4e-b634-94b2e14e3200> .
+  _:b4 <urn:example:/thumbnail> <6622ddb0-45ac-4c4e-b634-94b2e14e3200> .

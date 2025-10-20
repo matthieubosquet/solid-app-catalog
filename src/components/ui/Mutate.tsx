@@ -3,7 +3,6 @@
 import { parseRdf, toTurtle } from "@ldo/ldo"
 import { login, getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-client-authn-browser"
 import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
 import { SolidApps, SolidApp } from "@/ldo/Model.typings"
 import { Config } from "@/Config"
@@ -35,9 +34,10 @@ export default function Mutate() {
   }
 
   async function getDataInitial() {
-    const response = await fetch(Config.manifestResourceUri)
+    const catalogueManifestUri = new URL(Config.manifestResourceUri, Config.baseUri)
+    const response = await fetch(catalogueManifestUri)
     const text = await response.text()
-    const dataset = await parseRdf(text)
+    const dataset = await parseRdf(text, { baseIRI: Config.baseUri })
     const solidApps = dataset.usingType(SolidAppsShapeType).fromSubject(appsUri)
 
     setApps(solidApps)
