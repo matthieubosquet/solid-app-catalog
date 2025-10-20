@@ -1,197 +1,274 @@
-'use client'
+"use client";
 
-import { parseRdf, toTurtle } from "@ldo/ldo"
-import { login, getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-client-authn-browser"
-import { useEffect, useState } from 'react'
-import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes"
-import { SolidApps, SolidApp } from "@/ldo/Model.typings"
-import { Config } from "@/Config"
+import type { FormEvent } from "react";
+import { parseRdf, toTurtle } from "@ldo/ldo";
+import {
+    login,
+    getDefaultSession,
+    handleIncomingRedirect,
+} from "@inrupt/solid-client-authn-browser";
+import { useEffect, useState } from "react";
+import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
+import { SolidApps, SolidApp } from "@/ldo/Model.typings";
+import { Config } from "@/Config";
 
-const appsUri = "urn:example:solid-apps"
+const appsUri = "urn:example:solid-apps";
 
 export default function Mutate() {
-  const [newName, setNewName] = useState("")
-  const [newDescription, setNewDescription] = useState("")
-  const [newFeatured, setNewFeatured] = useState(false)
-  const [newWebsite, setNewWebsite] = useState("")
-  const [newThumbnail, setNewThumbnail] = useState<File>()
-  const [apps, setApps] = useState<SolidApps>()
-  const [, setMagic] = useState("")
+    const [newName, setNewName] = useState("");
+    const [newDescription, setNewDescription] = useState("");
+    const [newFeatured, setNewFeatured] = useState(false);
+    const [newWebsite, setNewWebsite] = useState("");
+    const [newThumbnail, setNewThumbnail] = useState<File>();
+    const [apps, setApps] = useState<SolidApps>();
+    const [, setMagic] = useState("");
 
-  async function authenticate() {
-    await handleIncomingRedirect()
-    const session = getDefaultSession()
+    async function authenticate() {
+        await handleIncomingRedirect();
+        const session = getDefaultSession();
 
-    if (!session.info.isLoggedIn) {
-      console.log("unauthenticated")
+        if (!session.info.isLoggedIn) {
+            console.log("unauthenticated");
 
-      await login({
-        oidcIssuer: "https://login.inrupt.com",
-        redirectUrl: new URL("", window.location.href).toString(),
-        clientName: "My application"
-      })
+            await login({
+                oidcIssuer: "https://login.inrupt.com", // TODO:
+                redirectUrl: new URL("", window.location.href).toString(),
+                clientName: "My application",
+            });
+        }
     }
-  }
 
-  async function getDataInitial() {
-    const catalogueManifestUri = new URL(Config.manifestResourceUri, Config.baseUri)
-    const response = await fetch(catalogueManifestUri)
-    const text = await response.text()
-    const dataset = await parseRdf(text, { baseIRI: Config.baseUri })
-    const solidApps = dataset.usingType(SolidAppsShapeType).fromSubject(appsUri)
+    async function getDataInitial() {
+        const catalogueManifestUri = new URL(
+            Config.manifestResourceUri,
+            Config.baseUri
+        );
+        const response = await fetch(catalogueManifestUri);
+        const text = await response.text();
+        const dataset = await parseRdf(text, { baseIRI: Config.baseUri }); // TODO: Comment about baseuri
+        const solidApps = dataset
+            .usingType(SolidAppsShapeType)
+            .fromSubject(appsUri);
 
-    setApps(solidApps)
-  }
+        setApps(solidApps);
+    }
 
-  async function save() {
-    await getDefaultSession().fetch(
-      Config.manifestResourceUri,
-      {
-        method: "put",
-        headers: {
-          "Content-Type": "text/turtle",
-          "Link": "<http://www.w3.org/ns/ldp#RDFSource>; rel=\"type\"",
-        },
-        body: await toTurtle(apps!)
-      })
+    async function save() {
+        await getDefaultSession().fetch(Config.manifestResourceUri, {
+            method: "put",
+            headers: {
+                "Content-Type": "text/turtle",
+                Link: '<http://www.w3.org/ns/ldp#RDFSource>; rel="type"',
+            },
+            body: await toTurtle(apps!),
+        });
 
-    alert("saved")
-  }
+        alert("saved");
+    }
 
-  async function removeApp(app: SolidApp) {
-    await deleteThumbnail(app.thumbnail!["@id"])
+    async function removeApp(app: SolidApp) {
+        if (!app.thumbnail) {
+            throw new Error("thumbnail is required");
+        }
 
-    delete app.name
-    delete app.description
-    delete app.featured
-    delete app.website
-    delete app.thumbnail
+        await deleteThumbnail(app.thumbnail["@id"]);
 
-    apps!.app?.delete(app)
+        delete app.name;
+        delete app.description;
+        delete app.featured;
+        delete app.website;
+        delete app.thumbnail;
 
-    save()
+        apps?.app?.delete(app);
 
-    setMagic(Math.random().toString())
-  }
+        save();
 
-  async function addApp(e: FormEvent) {
-    e.preventDefault()
+        setMagic(Math.random().toString());
+    }
 
-    apps!.app?.add({
-      name: newName,
-      description: newDescription,
-      featured: newFeatured,
-      website: { "@id": newWebsite },
-      thumbnail: { "@id": await createNewThumbnail() }
-    })
+    async function addApp(e: FormEvent) {
+        e.preventDefault();
 
-    setNewName("")
-    setNewDescription("")
-    setNewFeatured(false)
-    setNewWebsite("")
-    // TODO: How to reset new thumbnail input?
+        apps?.app?.add({
+            name: newName,
+            description: newDescription,
+            featured: newFeatured,
+            website: { "@id": newWebsite },
+            thumbnail: { "@id": await createNewThumbnail() },
+        });
 
-    save()
-  }
+        setNewName("");
+        setNewDescription("");
+        setNewFeatured(false);
+        setNewWebsite("");
+        // TODO: How to reset new thumbnail input?
 
-  async function createNewThumbnail(): Promise<string> {
-    const thumbnailUploadResponse = await getDefaultSession().fetch(
-      Config.baseUri,
-      {
-        method: "post",
-        headers: {
-          "Content-Type": newThumbnail?.type ?? "application/octet-stream",
-        },
-        body: newThumbnail
-      })
+        save();
+    }
 
-    return thumbnailUploadResponse.headers.get("Location")!
-  }
-
-  async function deleteThumbnail(thumbnail: string): Promise<void> {
-    await getDefaultSession().fetch(thumbnail, { method: "delete" })
-  }
-
-  useEffect(() => {
-    authenticate()
-      .then(getDataInitial)
-  }, [])
-
-  return (
-    <div>
-      {apps &&
-        <div>
-
-          <ul>
-            {apps.app?.map(app =>
-              <li key={app.website!["@id"]}>
-                <dl>
-                  <div>
-                    <dt>name</dt>
-                    <dd>{app.name}</dd>
-                  </div>
-                  <div>
-                    <dt>description</dt>
-                    <dd>{app.description}</dd>
-                  </div>
-                  <div>
-                    <dt>featured</dt>
-                    <dd><input type="checkbox" checked={app.featured} disabled></input></dd>
-                  </div>
-                  <div>
-                    <dt>website</dt>
-                    <dd><a href={app.website!["@id"]}>{app.website!["@id"]}</a></dd>
-                  </div>
-                  <div>
-                    <dt>thumbnail</dt>
-                    {/* TODO: remove style */}
-                    <dd><img src={app.thumbnail!["@id"]} style={{ maxWidth: 100, maxHeight: 100 }}></img></dd>
-                  </div>
-                </dl>
-                <button onClick={() => removeApp(app)}>remove</button>
-              </li>)
+    async function createNewThumbnail(): Promise<string> {
+        const thumbnailUploadResponse = await getDefaultSession().fetch(
+            Config.baseUri,
+            {
+                method: "post",
+                headers: {
+                    "Content-Type":
+                        newThumbnail?.type ?? "application/octet-stream",
+                },
+                body: newThumbnail,
             }
-          </ul>
+        );
 
-          <form onSubmit={addApp}>
-            <fieldset>
-              <legend>new app</legend>
-              <div>
-                <label>
-                  <span>name</span>
-                  <input required value={newName} onChange={e => setNewName(e.target.value)} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  <span>description</span>
-                  <input required value={newDescription} onChange={e => setNewDescription(e.target.value)} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  <span>featured</span>
-                  <input type="checkbox" checked={newFeatured} onChange={e => setNewFeatured(e.target.checked)} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  <span>website</span>
-                  <input required type="url" value={newWebsite} onChange={e => setNewWebsite(e.target.value)} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  <span>thumbnail</span>
-                  <input required type="file" onChange={e => setNewThumbnail(e.target.files![0])} />
-                </label>
-              </div>
-              <button accessKey="a"><u>a</u>dd</button>
-            </fieldset>
-          </form>
+        return thumbnailUploadResponse.headers.get("Location")!; // TODO: handle failed response
+    }
 
+    async function deleteThumbnail(thumbnail: string): Promise<void> {
+        await getDefaultSession().fetch(thumbnail, { method: "delete" });
+    }
+
+    useEffect(() => {
+        authenticate().then(getDataInitial);
+    }, []);
+
+    return (
+        <div>
+            {apps && (
+                <div>
+                    <ul>
+                        {apps.app?.map((app) => {
+                            if (!app.website) {
+                                throw new Error("website is required");
+                            }
+                            if (!app.thumbnail) {
+                                throw new Error("thumbnail is required");
+                            }
+
+                            return (
+                                <li key={app.website["@id"]}>
+                                    <dl>
+                                        <div>
+                                            <dt>name</dt>
+                                            <dd>{app.name}</dd>
+                                        </div>
+                                        <div>
+                                            <dt>description</dt>
+                                            <dd>{app.description}</dd>
+                                        </div>
+                                        <div>
+                                            <dt>featured</dt>
+                                            <dd>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={app.featured}
+                                                    disabled
+                                                />
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>website</dt>
+                                            <dd>
+                                                <a href={app.website["@id"]}>
+                                                    {app.website["@id"]}
+                                                </a>
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>thumbnail</dt>
+                                            <dd>
+                                                {/* TODO: remove style */}
+                                                <img
+                                                    src={app.thumbnail["@id"]}
+                                                    style={{
+                                                        maxWidth: 100,
+                                                        maxHeight: 100,
+                                                    }}
+                                                />
+                                            </dd>
+                                        </div>
+                                    </dl>
+                                    <button onClick={() => removeApp(app)}>
+                                        remove
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ul>
+
+                    <form onSubmit={addApp}>
+                        <fieldset>
+                            <legend>new app</legend>
+                            <div>
+                                <label>
+                                    <span>name</span>
+                                    <input
+                                        required
+                                        value={newName}
+                                        onChange={(e) =>
+                                            setNewName(e.target.value)
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>description</span>
+                                    <input
+                                        required
+                                        value={newDescription}
+                                        onChange={(e) =>
+                                            setNewDescription(e.target.value)
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>featured</span>
+                                    <input
+                                        type="checkbox"
+                                        checked={newFeatured}
+                                        onChange={(e) =>
+                                            setNewFeatured(e.target.checked)
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>website</span>
+                                    <input
+                                        required
+                                        type="url"
+                                        value={newWebsite}
+                                        onChange={(e) =>
+                                            setNewWebsite(e.target.value)
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>thumbnail</span>
+                                    <input
+                                        required
+                                        type="file"
+                                        onChange={(e) =>
+                                            setNewThumbnail(
+                                                e.target.files
+                                                    ? e.target.files[0]
+                                                    : undefined
+                                            )
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <button accessKey="a">
+                                <u>a</u>dd
+                            </button>
+                        </fieldset>
+                    </form>
+                </div>
+            )}
         </div>
-      }
-    </div>
-  )
+    );
 }

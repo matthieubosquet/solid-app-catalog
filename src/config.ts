@@ -1,21 +1,23 @@
-const errorTemplate = "Could not find required environment variable: "
+const errorTemplate = "Could not find required environment variable: ";
 
 export class Config {
-  public static get baseUri(): string {
-    const value = process.env.NEXT_PUBLIC_BASE_URI
-    if (value === undefined) {
-      throw new Error(`${errorTemplate}NEXT_PUBLIC_BASE_URI`)
+    public static get baseUri(): string {
+        const value = process.env.NEXT_PUBLIC_BASE_URI;
+        if (value === undefined) {
+            throw new Error(`${errorTemplate}NEXT_PUBLIC_BASE_URI`);
+        }
+
+        return value;
     }
 
-    return value
-  }
+    public static get manifestResourceUri(): string {
+        const value = process.env.NEXT_PUBLIC_MANIFEST_RESOURCE_URI;
+        if (value === undefined) {
+            throw new Error(
+                `${errorTemplate}NEXT_PUBLIC_MANIFEST_RESOURCE_URI`
+            );
+        }
 
-  public static get manifestResourceUri(): string {
-    const value = process.env.NEXT_PUBLIC_MANIFEST_RESOURCE_URI
-    if (value === undefined) {
-      throw new Error(`${errorTemplate}NEXT_PUBLIC_MANIFEST_RESOURCE_URI`)
+        return value;
     }
-
-    return value
-  }
 }
