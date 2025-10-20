@@ -1,11 +1,17 @@
 import type { SolidApp, SolidApps } from "@/ldo/Model.typings";
 
-// TODO: Make component
-export function renderCatalogue(catalogue: SolidApps): React.ReactNode {
-    return <ul>{catalogue.app?.map(renderApp)}</ul>;
+type AppHandler = (app: SolidApp) => Promise<void>;
+
+interface Props {
+    data: SolidApps;
+    deleteHandler?: AppHandler;
 }
 
-function renderApp(app: SolidApp): React.ReactNode {
+export function Catalogue({ data, deleteHandler }: Props) {
+    return <ul>{data.app?.map((app) => renderApp(app, deleteHandler))}</ul>;
+}
+
+function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
     if (!app.website) {
         throw new Error("website is required");
     }
@@ -34,7 +40,8 @@ function renderApp(app: SolidApp): React.ReactNode {
                         <input
                             type="checkbox"
                             checked={app.featured}
-                            disabled />
+                            disabled
+                        />
                     </dd>
                 </div>
                 <div>
@@ -50,6 +57,9 @@ function renderApp(app: SolidApp): React.ReactNode {
                     </dd>
                 </div>
             </dl>
+            {deleteHandler && (
+                <button onClick={() => deleteHandler(app)}>remove</button>
+            )}
         </li>
     );
 }

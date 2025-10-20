@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
 import { SolidApps, SolidApp } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
-import { renderCatalogue } from "@/renderCatalogue";
+import { Catalogue } from "@/components/ui/Catalogue";
 
 const appsUri = "urn:example:solid-apps";
 
@@ -135,7 +135,7 @@ export default function Mutate() {
         <div>
             {apps && (
                 <div>
-                    {renderCatalogue(apps)}
+                    <Catalogue data={apps} deleteHandler={removeApp} />
 
                     <form onSubmit={addApp}>
                         <fieldset>
