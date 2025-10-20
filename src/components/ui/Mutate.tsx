@@ -15,7 +15,7 @@ import { Catalogue } from "@/components/ui/Catalogue";
 
 const appsUri = "urn:example:solid-apps";
 
-export default function Mutate() {
+export function Mutate() {
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
     const [newFeatured, setNewFeatured] = useState(false);
@@ -40,11 +40,8 @@ export default function Mutate() {
     }
 
     async function getDataInitial() {
-        const catalogueManifestUri = new URL(
-            Config.manifestResourceUri,
-            Config.baseUri
-        );
-        const response = await fetch(catalogueManifestUri);
+        const uri = new URL(Config.manifestResourceUri, Config.baseUri);
+        const response = await fetch(uri);
         const text = await response.text();
         const dataset = await parseRdf(text, { baseIRI: Config.baseUri }); // TODO: Comment about baseuri
         const solidApps = dataset
@@ -55,7 +52,8 @@ export default function Mutate() {
     }
 
     async function save() {
-        await getDefaultSession().fetch(Config.manifestResourceUri, {
+        const uri = new URL(Config.manifestResourceUri, Config.baseUri);
+        await getDefaultSession().fetch(uri, {
             method: "put",
             headers: {
                 "Content-Type": "text/turtle",

@@ -1,21 +1,23 @@
 import { parseRdf } from "@ldo/ldo";
 import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
+import type { SolidApps } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
 import { Catalogue } from "@/components/ui/Catalogue";
 
 export default async function Home() {
-    const catalogueManifestUri = new URL(
-        Config.manifestResourceUri,
-        Config.baseUri
-    );
-    const catalogueResponse = await fetch(catalogueManifestUri);
-    const catalogueRdf = await catalogueResponse.text();
-    const catalogueDataset = await parseRdf(catalogueRdf, {
-        baseIRI: Config.baseUri,
-    });
-    const catalogue = catalogueDataset
-        .usingType(SolidAppsShapeType)
-        .fromSubject("urn:example:solid-apps");
+    return <Catalogue data={await fetchCatalogue()} />;
+}
 
-    return <Catalogue data={catalogue} />;
+async function fetchCatalogue(): Promise<SolidApps> {
+    const uri = new URL(Config.manifestResourceUri, Config.baseUri);
+    const response = await fetch(uri);
+    const rdf = await response.text();
+    const options = {
+        baseIRI: Config.baseUri,
+    };
+    const dataset = await parseRdf(rdf, options);
+
+    return dataset
+        .usingType(SolidAppsShapeType)
+        .fromSubject("urn:example:solid-apps"); // TODO: Config
 }
