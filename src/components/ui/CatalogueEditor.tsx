@@ -19,8 +19,21 @@ export function CatalogueEditor() {
     const [newFeatured, setNewFeatured] = useState(false);
     const [newWebsite, setNewWebsite] = useState("");
     const [newThumbnail, setNewThumbnail] = useState<File>();
-    const [apps, setApps] = useState<SolidApps>();
+    const [catalogue, setCatalogue] = useState<SolidApps>();
     const [, setMagic] = useState("");
+
+    useEffect(() => {
+        authenticate().then(fetchCatalogue).then(setCatalogue);
+    }, []);
+
+    return (
+        catalogue && (
+            <>
+                <CatalogueViewer data={catalogue} deleteHandler={removeApp} />
+                <NewCatalogueForm />
+            </>
+        )
+    );
 
     async function authenticate() {
         await handleIncomingRedirect();
@@ -30,15 +43,11 @@ export function CatalogueEditor() {
             console.log("unauthenticated");
 
             await login({
-                oidcIssuer: "https://login.inrupt.com", // TODO:
+                oidcIssuer: "https://login.inrupt.com", // TODO: config
                 redirectUrl: new URL("", window.location.href).toString(),
                 clientName: "My application",
             });
         }
-    }
-
-    async function getDataInitial() {
-        setApps(await fetchCatalogue());
     }
 
     async function save() {
@@ -49,7 +58,7 @@ export function CatalogueEditor() {
                 "Content-Type": "text/turtle",
                 Link: '<http://www.w3.org/ns/ldp#RDFSource>; rel="type"',
             },
-            body: await toTurtle(apps!),
+            body: await toTurtle(catalogue!),
         });
 
         alert("saved");
@@ -68,17 +77,18 @@ export function CatalogueEditor() {
         delete app.website;
         delete app.thumbnail;
 
-        apps?.app?.delete(app);
+        catalogue?.app?.delete(app);
 
         save();
 
+        // TODO: justify
         setMagic(Math.random().toString());
     }
 
     async function addApp(e: FormEvent) {
         e.preventDefault();
 
-        apps?.app?.add({
+        catalogue?.app?.add({
             name: newName,
             description: newDescription,
             featured: newFeatured,
@@ -95,7 +105,7 @@ export function CatalogueEditor() {
         save();
     }
 
-    async function createNewThumbnail(): Promise<string> {
+    async function createNewThumbnail() {
         const thumbnailUploadResponse = await getDefaultSession().fetch(
             Config.baseUri,
             {
@@ -111,91 +121,81 @@ export function CatalogueEditor() {
         return thumbnailUploadResponse.headers.get("Location")!; // TODO: handle failed response
     }
 
-    async function deleteThumbnail(thumbnail: string): Promise<void> {
+    async function deleteThumbnail(thumbnail: string) {
         await getDefaultSession().fetch(thumbnail, { method: "delete" });
     }
 
-    useEffect(() => {
-        authenticate().then(getDataInitial);
-    }, []);
-
-    return (
-        apps && (
-            <div>
-                <CatalogueViewer data={apps} deleteHandler={removeApp} />
-
-                <form onSubmit={addApp}>
-                    <fieldset>
-                        <legend>new app</legend>
-                        <div>
-                            <label>
-                                <span>name</span>
-                                <input
-                                    required
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>description</span>
-                                <input
-                                    required
-                                    value={newDescription}
-                                    onChange={(e) =>
-                                        setNewDescription(e.target.value)
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>featured</span>
-                                <input
-                                    type="checkbox"
-                                    checked={newFeatured}
-                                    onChange={(e) =>
-                                        setNewFeatured(e.target.checked)
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>website</span>
-                                <input
-                                    required
-                                    type="url"
-                                    value={newWebsite}
-                                    onChange={(e) =>
-                                        setNewWebsite(e.target.value)
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>thumbnail</span>
-                                <input
-                                    required
-                                    type="file"
-                                    onChange={(e) =>
-                                        setNewThumbnail(
-                                            e.target.files
-                                                ? e.target.files[0]
-                                                : undefined
-                                        )
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <button accessKey="a">
-                            <u>a</u>dd
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-        )
-    );
+    function NewCatalogueForm() {
+        return (
+            <form onSubmit={addApp}>
+                <fieldset>
+                    <legend>new app</legend>
+                    <div>
+                        <label>
+                            <span>name</span>
+                            <input
+                                required
+                                value={newName}
+                                onChange={(e) => setNewName(e.target.value)}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>description</span>
+                            <input
+                                required
+                                value={newDescription}
+                                onChange={(e) =>
+                                    setNewDescription(e.target.value)
+                                }
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>featured</span>
+                            <input
+                                type="checkbox"
+                                checked={newFeatured}
+                                onChange={(e) =>
+                                    setNewFeatured(e.target.checked)
+                                }
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>website</span>
+                            <input
+                                required
+                                type="url"
+                                value={newWebsite}
+                                onChange={(e) => setNewWebsite(e.target.value)}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>thumbnail</span>
+                            <input
+                                required
+                                type="file"
+                                onChange={(e) =>
+                                    setNewThumbnail(
+                                        e.target.files
+                                            ? e.target.files[0]
+                                            : undefined
+                                    )
+                                }
+                            />
+                        </label>
+                    </div>
+                    <button accessKey="a">
+                        <u>a</u>dd
+                    </button>
+                </fieldset>
+            </form>
+        );
+    }
 }
