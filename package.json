@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "build:ldo && build:next",
     "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
     "build:next": "next build --turbopack",
     "start": "concurrently \"npm:start:*\"",
+    "start:dev": "concurrently \"npm:start:css & npm:start:ldo & npm:start:next\"",
     "start:css": "community-solid-server --port 3001 --loggingLevel debug --config .cssconfig.json --rootFilePath data/",
     "start:ldo": "nodemon --watch src --ext shaclc --exec \"npm run build:ldo\"",
     "start:next": "next dev --turbopack"
