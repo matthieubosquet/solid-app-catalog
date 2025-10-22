@@ -8,10 +8,18 @@ interface CatalogueViewerProps {
 }
 
 export function CatalogueViewer({ data, deleteHandler }: CatalogueViewerProps) {
-    return <ul>{data.app?.map((app) => renderApp(app, deleteHandler))}</ul>;
+    // TODO: describe
+    const render = (app: SolidApp) => renderApp(app, deleteHandler);
+
+    // TODO: describe why app is nullable
+    const apps = data.app?.map(render);
+
+    // TODO: describe
+    return <ul>{apps}</ul>;
 }
 
 function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
+    // TODO: Describe why these are nullable
     if (!app.website) {
         throw new Error("website is required");
     }
