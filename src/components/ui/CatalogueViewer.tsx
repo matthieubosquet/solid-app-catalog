@@ -1,13 +1,13 @@
 import type { SolidApp, SolidApps } from "@/ldo/Model.typings";
 
-type AppHandler = (app: SolidApp) => Promise<void>;
-
-interface CatalogueViewerProps {
-    data: SolidApps;
-    deleteHandler?: AppHandler;
-}
-
-export function CatalogueViewer({ data, deleteHandler }: CatalogueViewerProps) {
+/**
+ * This is a React component for displaying a catalogue of Solid applications.
+ * It is used both on the (server-rendered, public) homepage, and in the (client-rendered, authenticated) admin page.
+ */
+export function CatalogueViewer({
+    data,
+    deleteHandler,
+}: CatalogueViewerProps): React.ReactNode {
     // TODO: describe
     const render = (app: SolidApp) => renderApp(app, deleteHandler);
 
@@ -32,6 +32,7 @@ function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
     const thumbnail = app.thumbnail["@id"];
 
     return (
+        // TODO: Assume website is unique
         <li key={website}>
             <dl>
                 <div>
@@ -71,3 +72,17 @@ function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
         </li>
     );
 }
+
+/**
+ * This structure defines the shape of the properties passed to the catalogue viewer component.
+ */
+type CatalogueViewerProps = Readonly<{
+    data: SolidApps;
+    deleteHandler?: AppHandler;
+}>;
+
+/**
+ * This structure defines the shape of an event handler (callback) for processing a {@link SolidApp}.
+ * Used here for the "remove" button in the admin interface.
+ */
+type AppHandler = (app: SolidApp) => Promise<void>;
