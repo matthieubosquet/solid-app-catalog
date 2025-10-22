@@ -1,19 +1,17 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { parseRdf, toTurtle } from "@ldo/ldo";
+import { toTurtle } from "@ldo/ldo";
 import {
     login,
     getDefaultSession,
     handleIncomingRedirect,
 } from "@inrupt/solid-client-authn-browser";
 import { useEffect, useState } from "react";
-import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
 import { SolidApps, SolidApp } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
 import { CatalogueViewer } from "@/components/ui/CatalogueViewer";
-
-const appsUri = "urn:example:solid-apps"; // TODO: Config
+import { fetchCatalogue } from "@/fetchCatalogue";
 
 export function CatalogueEditor() {
     const [newName, setNewName] = useState("");
@@ -40,15 +38,7 @@ export function CatalogueEditor() {
     }
 
     async function getDataInitial() {
-        const uri = new URL(Config.manifestResourceUri, Config.baseUri);
-        const response = await fetch(uri);
-        const text = await response.text();
-        const dataset = await parseRdf(text, { baseIRI: Config.baseUri }); // TODO: Comment about baseuri
-        const solidApps = dataset
-            .usingType(SolidAppsShapeType)
-            .fromSubject(appsUri);
-
-        setApps(solidApps);
+        setApps(await fetchCatalogue());
     }
 
     async function save() {
