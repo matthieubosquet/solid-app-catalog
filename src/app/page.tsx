@@ -1,7 +1,7 @@
 import { CatalogueViewer } from "../components/ui/CatalogueViewer";
 import { fetchCatalogue } from "../fetchCatalogue";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 /**
  * This is the home page.
