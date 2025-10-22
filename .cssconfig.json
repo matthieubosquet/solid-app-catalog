@@ -32,13 +32,5 @@
     "css:config/util/representation-conversion/default.json",
     "css:config/util/resource-locker/memory.json",
     "css:config/util/variables/default.json"
-  ],
-  "@graph": [
-    {
-      "comment": [
-        "A Solid server that stores its resources on disk and uses WAC for authorization.",
-        "No registration and the root container is initialized to allow full access for everyone so make sure to change this."
-      ]
-    }
   ]
 }

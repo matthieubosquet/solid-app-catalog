@@ -2,12 +2,12 @@ import type { SolidApp, SolidApps } from "@/ldo/Model.typings";
 
 type AppHandler = (app: SolidApp) => Promise<void>;
 
-interface Props {
+interface CatalogueViewerProps {
     data: SolidApps;
     deleteHandler?: AppHandler;
 }
 
-export function CatalogueViewer({ data, deleteHandler }: Props) {
+export function CatalogueViewer({ data, deleteHandler }: CatalogueViewerProps) {
     return <ul>{data.app?.map((app) => renderApp(app, deleteHandler))}</ul>;
 }
 

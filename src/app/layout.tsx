@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     description: "Authn browser & LDO & Next.js",
 };
 
-export default function RootLayout({
+export default function ({
     children,
 }: Readonly<{
     children: React.ReactNode;

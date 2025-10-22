@@ -4,7 +4,7 @@ import type { SolidApps } from "@/ldo/Model.typings";
 import { Config } from "@/Config";
 import { CatalogueViewer } from "@/components/ui/CatalogueViewer";
 
-export default async function Home() {
+export default async function () {
     return <CatalogueViewer data={await fetchCatalogue()} />;
 }
 
