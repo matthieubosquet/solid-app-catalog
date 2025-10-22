@@ -1,4 +1,4 @@
-import type { SolidApp, SolidApps } from "@/ldo/Model.typings";
+import type { SolidApp, SolidApps } from "../../ldo/Model.typings";
 
 /**
  * This is a React component for displaying a catalogue of Solid applications.
