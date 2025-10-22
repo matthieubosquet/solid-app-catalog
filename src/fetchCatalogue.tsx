@@ -12,8 +12,12 @@ export async function fetchCatalogue(): Promise<SolidApps> {
     // local part (like file.ext)
     const uri = new URL(Config.manifestResourceUri, Config.baseUri);
 
-    // TODO: add accept, link to ldo docs, `Turtle`, `TriG`, `N-Triples`, `N-Quads`, `N3`, `Notation3`
-    const response = await fetch(uri);
+    // TODO: explain formats, link to ldo docs, n3 docs
+    const response = await fetch(uri, {
+        headers: {
+            Accept: "text/turtle, application/trig, application/n-triples, application/n-quads, text/n3",
+        },
+    });
 
     // TODO: describe serious error handling
     if (!response.ok) {
