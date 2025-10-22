@@ -8,10 +8,10 @@ import {
     handleIncomingRedirect,
 } from "@inrupt/solid-client-authn-browser";
 import { useEffect, useState } from "react";
-import { SolidApps, SolidApp } from "@/ldo/Model.typings";
-import { Config } from "@/Config";
-import { CatalogueViewer } from "@/components/ui/CatalogueViewer";
-import { fetchCatalogue } from "@/fetchCatalogue";
+import { SolidApps, SolidApp } from "../../ldo/Model.typings";
+import { Config } from "../../Config";
+import { CatalogueViewer } from "../../components/ui/CatalogueViewer";
+import { fetchCatalogue } from "../../fetchCatalogue";
 
 export function CatalogueEditor() {
     const [newName, setNewName] = useState("");

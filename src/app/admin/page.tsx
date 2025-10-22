@@ -1,4 +1,4 @@
-import { CatalogueEditor } from "@/components/ui/CatalogueEditor";
+import { CatalogueEditor } from "../../components/ui/CatalogueEditor";
 
 /**
  * This is the admin page.

@@ -1,5 +1,5 @@
-import { CatalogueViewer } from "@/components/ui/CatalogueViewer";
-import { fetchCatalogue } from "@/fetchCatalogue";
+import { CatalogueViewer } from "../components/ui/CatalogueViewer";
+import { fetchCatalogue } from "../fetchCatalogue";
 
 /**
  * This is the home page.

@@ -1,7 +1,7 @@
 import { parseRdf } from "@ldo/ldo";
-import { SolidAppsShapeType } from "@/ldo/Model.shapeTypes";
-import type { SolidApps } from "@/ldo/Model.typings";
-import { Config } from "@/Config";
+import { SolidAppsShapeType } from "./ldo/Model.shapeTypes";
+import type { SolidApps } from "./ldo/Model.typings";
+import { Config } from "./Config";
 
 /**
  * TODO: Description

@@ -1,6 +1,7 @@
 PREFIX : <urn:example:/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
+# comment
 shape :SolidApps {
     :app IRI @:SolidApp .
 }

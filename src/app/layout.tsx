@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/app/global.css";
+import "./global.css";
 
 /**
  * This is the default metadata of the Next.js application.
