@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "build:ldo && build:next",
+    "build": "npm run build:ldo && npm run build:next",
     "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
     "build:next": "next build --turbopack",
     "start": "next start",
