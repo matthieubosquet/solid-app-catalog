@@ -30,7 +30,78 @@ export function CatalogueEditor() {
         catalogue && (
             <>
                 <CatalogueViewer data={catalogue} deleteHandler={removeApp} />
-                <NewCatalogueForm />
+
+                <form onSubmit={addApp}>
+                    <fieldset>
+                        <legend>new app</legend>
+                        <div>
+                            <label>
+                                <span>name</span>
+                                <input
+                                    required
+                                    value={newName}
+                                    onChange={(e) => setNewName(e.target.value)}
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>description</span>
+                                <input
+                                    required
+                                    value={newDescription}
+                                    onChange={(e) =>
+                                        setNewDescription(e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>featured</span>
+                                <input
+                                    type="checkbox"
+                                    checked={newFeatured}
+                                    onChange={(e) =>
+                                        setNewFeatured(e.target.checked)
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>website</span>
+                                <input
+                                    required
+                                    type="url"
+                                    value={newWebsite}
+                                    onChange={(e) =>
+                                        setNewWebsite(e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>thumbnail</span>
+                                <input
+                                    required
+                                    type="file"
+                                    onChange={(e) =>
+                                        setNewThumbnail(
+                                            e.target.files
+                                                ? e.target.files[0]
+                                                : undefined
+                                        )
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <button accessKey="a">
+                            <u>a</u>dd
+                        </button>
+                    </fieldset>
+                </form>
             </>
         )
     );
@@ -123,79 +194,5 @@ export function CatalogueEditor() {
 
     async function deleteThumbnail(thumbnail: string) {
         await getDefaultSession().fetch(thumbnail, { method: "delete" });
-    }
-
-    function NewCatalogueForm() {
-        return (
-            <form onSubmit={addApp}>
-                <fieldset>
-                    <legend>new app</legend>
-                    <div>
-                        <label>
-                            <span>name</span>
-                            <input
-                                required
-                                value={newName}
-                                onChange={(e) => setNewName(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <span>description</span>
-                            <input
-                                required
-                                value={newDescription}
-                                onChange={(e) =>
-                                    setNewDescription(e.target.value)
-                                }
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <span>featured</span>
-                            <input
-                                type="checkbox"
-                                checked={newFeatured}
-                                onChange={(e) =>
-                                    setNewFeatured(e.target.checked)
-                                }
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <span>website</span>
-                            <input
-                                required
-                                type="url"
-                                value={newWebsite}
-                                onChange={(e) => setNewWebsite(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <span>thumbnail</span>
-                            <input
-                                required
-                                type="file"
-                                onChange={(e) =>
-                                    setNewThumbnail(
-                                        e.target.files
-                                            ? e.target.files[0]
-                                            : undefined
-                                    )
-                                }
-                            />
-                        </label>
-                    </div>
-                    <button accessKey="a">
-                        <u>a</u>dd
-                    </button>
-                </fieldset>
-            </form>
-        );
     }
 }
