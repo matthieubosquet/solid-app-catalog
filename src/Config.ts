@@ -23,4 +23,13 @@ export class Config {
 
         return value;
     }
+
+    public static get adminWebID(): string {
+        const value = process.env.NEXT_PUBLIC_ADMIN_WEBID;
+        if (value === undefined) {
+            throw new Error(`${errorTemplate}NEXT_PUBLIC_ADMIN_WEBID`);
+        }
+
+        return value;
+    }
 }

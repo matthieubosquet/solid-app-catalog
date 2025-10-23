@@ -7,13 +7,15 @@
     "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
     "build:next": "next build --turbopack",
     "start": "next start",
+    "startx": "concurrently \"npm:startx:*\"",
     "start:dev": "concurrently \"npm:start:css & npm:start:ldo & npm:start:next\"",
-    "start:css": "community-solid-server --port 3001 --loggingLevel debug --config .cssconfig.json --rootFilePath data/",
-    "start:ldo": "nodemon --watch src --ext shaclc --exec \"npm run build:ldo\"",
-    "start:next": "next dev --turbopack"
+    "startx:css": "community-solid-server --port 3001 --loggingLevel debug --config .cssconfig.json --rootFilePath data/",
+    "startx:ldo": "nodemon --watch src --ext shaclc --exec \"npm run build:ldo\"",
+    "startx:next": "next dev --turbopack"
   },
   "dependencies": {
     "@inrupt/solid-client-authn-browser": "^3.1.0",
+    "@inrupt/solid-client": "2.1.2",
     "@ldo/ldo": "^1.0.0-alpha.32",
     "next": "15.5.4",
     "react": "19.1.0",
