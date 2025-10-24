@@ -9,10 +9,24 @@ export const dynamic = "force-dynamic";
  * It is available (by default) at http://localhost:3000/boot
  */
 export default async function () {
-    await createManifetsResource();
-    await updateContainerAccessControl();
+    try {
+        await createManifetsResource();
+        await updateContainerAccessControl();
 
-    return "Created manifest resource and modified container access control";
+        return (
+            <>
+                <p>
+                    Created manifest resource and modified container access
+                    control.
+                </p>
+                <p>
+                    Try editing the manifest resource on the <a href="admin">admin page</a>
+                </p>
+            </>
+        );
+    } catch {
+        return "Could not create manifest resource / modify container access control.";
+    }
 }
 
 async function createManifetsResource() {

@@ -26,8 +26,8 @@ export function CatalogueEditor() {
         authenticate().then(fetchCatalogue).then(setCatalogue);
     }, []);
 
-    return (
-        catalogue && (
+    if (catalogue) {
+        return (
             <>
                 <CatalogueViewer data={catalogue} deleteHandler={removeApp} />
 
@@ -103,8 +103,18 @@ export function CatalogueEditor() {
                     </fieldset>
                 </form>
             </>
-        )
-    );
+        );
+    } else {
+        return (
+            <>
+                <p>Could not load catalogue.</p>
+                <p>Manifest resource probably does not exist.</p>
+                <p>
+                    Did you run the <a href="boot">bootstrap page</a>?
+                </p>
+            </>
+        );
+    }
 
     async function authenticate() {
         await handleIncomingRedirect();

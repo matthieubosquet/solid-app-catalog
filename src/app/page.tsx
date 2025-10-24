@@ -8,5 +8,17 @@ export const dynamic = "force-dynamic";
  * It is available (by default) at http://localhost:3000/
  */
 export default async function () {
-    return <CatalogueViewer data={await fetchCatalogue()} />;
+    try {
+        return <CatalogueViewer data={await fetchCatalogue()} />;
+    } catch {
+        return (
+            <>
+                <p>Could not load catalogue.</p>
+                <p>Manifest resource probably does not exist.</p>
+                <p>
+                    Did you run the <a href="boot">bootstrap page</a>?
+                </p>
+            </>
+        );
+    }
 }
