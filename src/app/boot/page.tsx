@@ -9,6 +9,13 @@ export const dynamic = "force-dynamic";
  * It is available (by default) at http://localhost:3000/boot
  */
 export default async function () {
+    await createManifetsResource();
+    await updateContainerAccessControl();
+
+    return "Created manifest resource and modified container access control";
+}
+
+async function createManifetsResource() {
     const uri = new URL(Config.manifestResourceUri, Config.baseUri);
 
     const response1 = await fetch(uri, {
@@ -21,14 +28,29 @@ export default async function () {
     if (!response1.ok) {
         throw new Error("Could not create manifest resource");
     }
+}
 
+async function updateContainerAccessControl() {
     const appContainer = await getResourceInfoWithAcl(Config.baseUri);
     const acrUri = getLinkedAcrUrl(appContainer);
     if (!acrUri) {
         throw new Error("Could not find container access control resource");
     }
 
-    const rdf = `PREFIX acl: <http://www.w3.org/ns/auth/acl#>
+    const response = await fetch(acrUri, {
+        method: "put",
+        body: defaultAcrAcpRdf,
+        headers: {
+            "Content-Type": "text/turtle",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Could not modify container access control");
+    }
+}
+
+const defaultAcrAcpRdf = `PREFIX acl: <http://www.w3.org/ns/auth/acl#>
 PREFIX : <http://www.w3.org/ns/solid/acp#>
 
 [
@@ -58,18 +80,3 @@ _:public
 
 _:me :agent <${Config.adminWebID}> . # TODO: Replace with proper WebID
 `;
-
-    const response = await fetch(acrUri, {
-        method: "put",
-        body: rdf,
-        headers: {
-            "Content-Type": "text/turtle",
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error("Could not modify container access control");
-    }
-
-    return "Created manifest resource and modified container access control";
-}
