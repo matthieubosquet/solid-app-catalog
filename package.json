@@ -1,35 +1,35 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build": "npm run build:ldo && npm run build:next",
-    "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
-    "build:next": "next build --turbopack",
-    "start": "next start",
-    "start:dev": "concurrently \"npm:start:css & npm:start:ldo & npm:start:next\"",
-    "start:css": "community-solid-server --port 3001 --loggingLevel debug --config .cssconfig.json --rootFilePath data/",
-    "start:ldo": "nodemon --watch src --ext shaclc --exec \"npm run build:ldo\"",
-    "start:next": "next dev --turbopack"
-  },
-  "dependencies": {
-    "@inrupt/solid-client-authn-browser": "^3.1.0",
-    "@inrupt/solid-client": "2.1.2",
-    "@ldo/ldo": "^1.0.0-alpha.32",
-    "next": "15.5.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
-  },
-  "devDependencies": {
-    "@ldo/cli": "^1.0.0-alpha.32",
-    "@solid/community-server": "^8.0.0-alpha.1",
-    "@types/jsonld": "^1",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@types/shexj": "^2",
-    "concurrently": "^9.2.1",
-    "nodemon": "^3",
-    "typescript": "^5"
-  }
+    "name": "my-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "npm run build:ldo && npm run build:next",
+        "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
+        "build:next": "next build --turbopack",
+        "start": "next start",
+        "start:dev": "concurrently \"npm:start:css & npm:start:ldo & npm:start:next\"",
+        "start:css": "community-solid-server --port 3001 --loggingLevel debug --config .cssconfig.json --rootFilePath data/",
+        "start:ldo": "nodemon --watch src --ext shaclc --exec \"npm run build:ldo\"",
+        "start:next": "next dev --turbopack"
+    },
+    "dependencies": {
+        "@inrupt/solid-client-authn-browser": "^3.1.0",
+        "@inrupt/solid-client": "2.1.2",
+        "@ldo/ldo": "^1.0.0-alpha.32",
+        "next": "15.5.4",
+        "react": "19.1.0",
+        "react-dom": "19.1.0"
+    },
+    "devDependencies": {
+        "@ldo/cli": "^1.0.0-alpha.32",
+        "@solid/community-server": "^8.0.0-alpha.1",
+        "@types/jsonld": "^1",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "@types/shexj": "^2",
+        "concurrently": "^9.2.1",
+        "nodemon": "^3",
+        "typescript": "^5"
+    }
 }
