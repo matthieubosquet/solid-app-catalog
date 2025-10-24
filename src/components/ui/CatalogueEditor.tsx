@@ -125,24 +125,31 @@ export function CatalogueEditor() {
 
             await login({
                 oidcIssuer: "https://login.inrupt.com", // TODO: config
-                redirectUrl: new URL("", window.location.href).toString(),
                 clientName: "My application",
             });
         }
     }
 
     async function save() {
+        if (!catalogue) {
+            throw new Error("Catalogue state variable was not set");
+        }
+
         const uri = new URL(Config.manifestResourceUri, Config.baseUri);
-        await getDefaultSession().fetch(uri, {
+        const response = await getDefaultSession().fetch(uri, {
             method: "put",
             headers: {
                 "Content-Type": "text/turtle",
                 Link: '<http://www.w3.org/ns/ldp#RDFSource>; rel="type"',
             },
-            body: await toTurtle(catalogue!),
+            body: await toTurtle(catalogue),
         });
 
-        alert("saved");
+        if (!response.ok) {
+            throw new Error("Could not save catalogue manifest resource");
+        }
+
+        alert("Catalogue manifest resource saved");
     }
 
     async function removeApp(app: SolidApp) {
@@ -150,6 +157,7 @@ export function CatalogueEditor() {
             throw new Error("thumbnail is required");
         }
 
+        // TODO: Why separate? Explain dependent resource
         await deleteThumbnail(app.thumbnail["@id"]);
 
         delete app.name;
@@ -158,6 +166,7 @@ export function CatalogueEditor() {
         delete app.website;
         delete app.thumbnail;
 
+        // TODO: Why separate? Explain graph deletion of complex value
         catalogue?.app?.delete(app);
 
         save();
@@ -186,20 +195,26 @@ export function CatalogueEditor() {
         save();
     }
 
-    async function createNewThumbnail() {
-        const thumbnailUploadResponse = await getDefaultSession().fetch(
-            Config.baseUri,
-            {
-                method: "post",
-                headers: {
-                    "Content-Type":
-                        newThumbnail?.type ?? "application/octet-stream",
-                },
-                body: newThumbnail,
-            }
-        );
+    async function createNewThumbnail(): Promise<string> {
+        const response = await getDefaultSession().fetch(Config.baseUri, {
+            method: "post",
+            headers: {
+                "Content-Type":
+                    newThumbnail?.type ?? "application/octet-stream",
+            },
+            body: newThumbnail,
+        });
 
-        return thumbnailUploadResponse.headers.get("Location")!; // TODO: handle failed response
+        if (!response.ok) {
+            throw new Error("Could not create new thumbnail resource");
+        }
+
+        const location = response.headers.get("Location");
+        if (!location) {
+            throw new Error("Thumbnail create response lacks location header");
+        }
+
+        return location;
     }
 
     async function deleteThumbnail(thumbnail: string) {
