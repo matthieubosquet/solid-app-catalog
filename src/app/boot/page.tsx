@@ -20,7 +20,8 @@ export default async function () {
                     control.
                 </p>
                 <p>
-                    Try editing the manifest resource on the <a href="admin">admin page</a>
+                    Try editing the manifest resource on the
+                    <a href="admin">admin page</a>
                 </p>
             </>
         );
