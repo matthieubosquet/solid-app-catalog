@@ -19,7 +19,8 @@ export async function fetchCatalogue(): Promise<SolidApps> {
         },
     });
 
-    // TODO: describe serious error handling
+    // In case we were not able to fetch the manifest resource, bail out.
+    // Serious exception handling and network resilience are out of scope for this demo.
     if (!response.ok) {
         throw new Error("Failed to fetch catalogue");
     }
