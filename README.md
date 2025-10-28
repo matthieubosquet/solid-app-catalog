@@ -1,31 +1,35 @@
-write about how to do env vars
+# Demo Solid Application
 
-# solid-app-catalog
+This is a minimal Solid Application using [Next.js](https://nextjs.org/), [LDO](https://ldo.js.org/latest/) and [ACP](https://solidproject.org/TR/acp).
 
-Minimal next.js app with LDO.
-
-See home page for demo:
+TODO See home page for demo:
 https://github.com/matthieubosquet/solid-app-catalog/blob/7018ac5afd3f7cfabb47e3d7434777450bb3dfd6/src/app/page.tsx#L27-L31
 
-## How to
 
-1. Run `npm i`
-2. Run `npm start`
-    - Starts LDO watching for changes to *.shex to regenerate Data Objects
+## Run the App
+
+To run the app locally, just use npm commands: `install`, `build` and `start:dev`.
+
+The `start:dev` command concurrently the [Community Solid Server](https://communitysolidserver.github.io/CommunitySolidServer/latest/), LDO in watch mode (to rebuild the model when changes are made), and Next in dev mode.
+
+1. `npm i`
+1. `npm run build`
+1. `npm run start:dev`
+    - Starts LDO watching for changes to *.shaclc to regenerate Data Objects
     - Starts next in dev mode watching for changes to *.ts http://localhost:3000
-    - Starts a Community Solid Server instance with scaffolded pod
-        - Login: http://localhost:3001/.account/login/password/
-            - email: a@a.a
-            - password: a;
-        - Pod: http://localhost:3001/a/
+    - Starts a Community Solid Server instance
+        - Runs on http://localhost:3001
+        - Uses the `./data` directory for storing Solid Resources
+        - Has a minimal config using [ACP](https://solidproject.org/TR/acp) for access control
+
+
 
 ## Architecture
 
-Solid defines standard storage + access control.
+Solid specifications include definitions for a [standard storage API](https://solidproject.org/TR/protocol), an [authentication mechanism](https://solidproject.org/TR/oidc) and an [access control language](https://solidproject.org/TR/acp).
 
 In Solid there are two main competing access control standards: WAC and ACP. We chose ACP.
 
 We stir away from hierarchical modelling, resource containment is designed to enable adequate access control of resources to serve functionality.
 
 Manifests resources are publicly readable resources designed for traversal needs.
-

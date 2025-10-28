@@ -7,7 +7,7 @@
         "build:ldo": "ldo build --input ./src/shapes --output ./src/ldo",
         "build:next": "next build --turbopack",
         "start": "next start",
-        "start:dev": "concurrently \"npm:start:css & npm:start:ldo & npm:start:next\"",
+        "start:dev": "concurrently \"npm run start:css\" \"npm run start:ldo\" \"npm run start:next\"",
         "start:css": "community-solid-server --port 3001 --loggingLevel debug --config .cssconfig.json --rootFilePath data/",
         "start:ldo": "nodemon --watch src --ext shaclc --exec \"npm run build:ldo\"",
         "start:next": "next dev --turbopack"
@@ -28,7 +28,7 @@
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "@types/shexj": "^2",
-        "concurrently": "^9.2.1",
+        "concurrently": "^9",
         "nodemon": "^3",
         "typescript": "^5"
     }
