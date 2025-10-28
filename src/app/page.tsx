@@ -1,5 +1,5 @@
-import { CatalogueViewer } from "../components/ui/CatalogueViewer";
-import { fetchCatalogue } from "../fetchCatalogue";
+import { ListViewer } from "../components/ui/ListViewer";
+import { fetchList } from "../fetchList";
 
 export const dynamic = "force-dynamic";
 
@@ -9,11 +9,11 @@ export const dynamic = "force-dynamic";
  */
 export default async function () {
     try {
-        return <CatalogueViewer data={await fetchCatalogue()} />;
+        return <ListViewer data={await fetchList()} />;
     } catch {
         return (
             <>
-                <p>Could not load catalogue.</p>
+                <p>Could not load list.</p>
                 <p>Manifest resource probably does not exist.</p>
                 <p>
                     Did you run the <a href="boot">bootstrap page</a>?

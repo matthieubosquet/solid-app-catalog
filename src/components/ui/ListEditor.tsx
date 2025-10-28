@@ -8,32 +8,32 @@ import {
     handleIncomingRedirect,
 } from "@inrupt/solid-client-authn-browser";
 import { useEffect, useState } from "react";
-import { SolidApps, SolidApp } from "../../ldo/Model.typings";
+import { List, Item } from "../../ldo/Model.typings";
 import { Config } from "../../Config";
-import { CatalogueViewer } from "../../components/ui/CatalogueViewer";
-import { fetchCatalogue } from "../../fetchCatalogue";
+import { ListViewer } from "../../components/ui/ListViewer";
+import { fetchList } from "../../fetchList";
 
-export function CatalogueEditor() {
+export function ListEditor() {
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
     const [newFeatured, setNewFeatured] = useState(false);
     const [newWebsite, setNewWebsite] = useState("");
     const [newThumbnail, setNewThumbnail] = useState<File>();
-    const [catalogue, setCatalogue] = useState<SolidApps>();
+    const [list, setList] = useState<List>();
     const [, setMagic] = useState("");
 
     useEffect(() => {
-        authenticate().then(fetchCatalogue).then(setCatalogue);
+        authenticate().then(fetchList).then(setList);
     }, []);
 
-    if (catalogue) {
+    if (list) {
         return (
             <>
-                <CatalogueViewer data={catalogue} deleteHandler={removeApp} />
+                <ListViewer data={list} deleteHandler={removeItem} />
 
-                <form onSubmit={addApp}>
+                <form onSubmit={addItem}>
                     <fieldset>
-                        <legend>new app</legend>
+                        <legend>new item</legend>
                         <div>
                             <label>
                                 <span>name</span>
@@ -107,7 +107,7 @@ export function CatalogueEditor() {
     } else {
         return (
             <>
-                <p>Could not load catalogue.</p>
+                <p>Could not load list.</p>
                 <p>Manifest resource probably does not exist.</p>
                 <p>
                     Did you run the <a href="boot">bootstrap page</a>?
@@ -131,8 +131,8 @@ export function CatalogueEditor() {
     }
 
     async function save() {
-        if (!catalogue) {
-            throw new Error("Catalogue state variable was not set");
+        if (!list) {
+            throw new Error("List state variable was not set");
         }
 
         const uri = new URL(Config.manifestResourceUri, Config.baseUri);
@@ -142,32 +142,32 @@ export function CatalogueEditor() {
                 "Content-Type": "text/turtle",
                 Link: '<http://www.w3.org/ns/ldp#RDFSource>; rel="type"',
             },
-            body: await toTurtle(catalogue),
+            body: await toTurtle(list),
         });
 
         if (!response.ok) {
-            throw new Error("Could not save catalogue manifest resource");
+            throw new Error("Could not save list manifest resource");
         }
 
-        alert("Catalogue manifest resource saved");
+        alert("List manifest resource saved");
     }
 
-    async function removeApp(app: SolidApp) {
-        if (!app.thumbnail) {
+    async function removeItem(item: Item) {
+        if (!item.thumbnail) {
             throw new Error("thumbnail is required");
         }
 
         // TODO: Why separate? Explain dependent resource
-        await deleteThumbnail(app.thumbnail["@id"]);
+        await deleteThumbnail(item.thumbnail["@id"]);
 
-        delete app.name;
-        delete app.description;
-        delete app.featured;
-        delete app.website;
-        delete app.thumbnail;
+        delete item.name;
+        delete item.description;
+        delete item.featured;
+        delete item.website;
+        delete item.thumbnail;
 
         // TODO: Why separate? Explain graph deletion of complex value
-        catalogue?.app?.delete(app);
+        list?.item?.delete(item);
 
         save();
 
@@ -175,10 +175,10 @@ export function CatalogueEditor() {
         setMagic(Math.random().toString());
     }
 
-    async function addApp(e: FormEvent) {
+    async function addItem(e: FormEvent) {
         e.preventDefault();
 
-        catalogue?.app?.add({
+        list?.item?.add({
             name: newName,
             description: newDescription,
             featured: newFeatured,

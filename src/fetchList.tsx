@@ -1,12 +1,12 @@
 import { parseRdf } from "@ldo/ldo";
-import { SolidAppsShapeType } from "./ldo/Model.shapeTypes";
-import type { SolidApps } from "./ldo/Model.typings";
+import { ListShapeType } from "./ldo/Model.shapeTypes";
+import type { List } from "./ldo/Model.typings";
 import { Config } from "./Config";
 
 /**
  * TODO: Description
  */
-export async function fetchCatalogue(): Promise<SolidApps> {
+export async function fetchList(): Promise<List> {
     // Construct a URL for the Solid resource.
     // Use a base URI (like http://example.com/some-path/) separate from the
     // local part (like file.ext)
@@ -22,7 +22,7 @@ export async function fetchCatalogue(): Promise<SolidApps> {
     // In case we were not able to fetch the manifest resource, bail out.
     // Serious exception handling and network resilience are out of scope for this demo.
     if (!response.ok) {
-        throw new Error("Failed to fetch catalogue");
+        throw new Error("Failed to fetch list");
     }
 
     const rdf = await response.text();
@@ -33,7 +33,5 @@ export async function fetchCatalogue(): Promise<SolidApps> {
     // TODO: describe ldo
     const dataset = await parseRdf(rdf, options);
 
-    return dataset
-        .usingType(SolidAppsShapeType)
-        .fromSubject("urn:example:solid-apps");
+    return dataset.usingType(ListShapeType).fromSubject("urn:example:list");
 }

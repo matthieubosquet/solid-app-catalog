@@ -8,7 +8,7 @@ import "./global.css";
  * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/metadata}
  */
 export const metadata: Metadata = {
-    title: "Solid App Catalogue",
+    title: "Solid List Items",
     description: "Authn browser & LDO & Next.js",
 };
 

@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 /**
  * This is the boot page.
  * It is available (by default) at http://localhost:3000/boot
- * It is used to create the catalogue manifest Solid resource and to configure the access control policy for the Solid container where this application stores its data.
+ * It is used to create the list manifest Solid resource and to configure the access control policy for the Solid container where this application stores its data.
  * It is intended to be called once only after deploying the Solid server.
  * 'Provisioning' functionality similar to this is likely to be needed in a production setup,
  * but it might not be needed in every deployment.

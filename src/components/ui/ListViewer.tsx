@@ -1,35 +1,35 @@
-import type { SolidApp, SolidApps } from "../../ldo/Model.typings";
+import type { Item, List } from "../../ldo/Model.typings";
 
 /**
- * This is a React component for displaying a catalogue of Solid applications.
+ * This is a React component for displaying a list of items.
  * It is used both on the (server-rendered, public) homepage, and in the (client-rendered, authenticated) admin page.
  */
-export function CatalogueViewer({
+export function ListViewer({
     data,
     deleteHandler,
-}: CatalogueViewerProps): React.ReactNode {
+}: ListViewerProps): React.ReactNode {
     // TODO: describe
-    const render = (app: SolidApp) => renderApp(app, deleteHandler);
+    const render = (item: Item) => renderItem(item, deleteHandler);
 
-    // TODO: describe why app is nullable
-    const apps = data.app?.map(render);
+    // TODO: describe why item is nullable
+    const items = data.item?.map(render);
 
     // TODO: describe
-    return <ul>{apps}</ul>;
+    return <ul>{items}</ul>;
 }
 
-function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
+function renderItem(item: Item, deleteHandler?: ItemHandler): React.ReactNode {
     // TODO: Describe why these are nullable
-    if (!app.website) {
+    if (!item.website) {
         throw new Error("website is required");
     }
-    if (!app.thumbnail) {
+    if (!item.thumbnail) {
         throw new Error("thumbnail is required");
     }
 
     // TODO: descripbe @id
-    const website = app.website["@id"];
-    const thumbnail = app.thumbnail["@id"];
+    const website = item.website["@id"];
+    const thumbnail = item.thumbnail["@id"];
 
     return (
         // TODO: Assume website is unique
@@ -37,18 +37,18 @@ function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
             <dl>
                 <div>
                     <dt>name</dt>
-                    <dd>{app.name}</dd>
+                    <dd>{item.name}</dd>
                 </div>
                 <div>
                     <dt>description</dt>
-                    <dd>{app.description}</dd>
+                    <dd>{item.description}</dd>
                 </div>
                 <div>
                     <dt>featured</dt>
                     <dd>
                         <input
                             type="checkbox"
-                            checked={app.featured}
+                            checked={item.featured}
                             disabled
                         />
                     </dd>
@@ -67,22 +67,22 @@ function renderApp(app: SolidApp, deleteHandler?: AppHandler): React.ReactNode {
                 </div>
             </dl>
             {deleteHandler && (
-                <button onClick={() => deleteHandler(app)}>remove</button>
+                <button onClick={() => deleteHandler(item)}>remove</button>
             )}
         </li>
     );
 }
 
 /**
- * This structure defines the shape of the properties passed to the catalogue viewer component.
+ * This structure defines the shape of the properties passed to the list viewer component.
  */
-type CatalogueViewerProps = Readonly<{
-    data: SolidApps;
-    deleteHandler?: AppHandler;
+type ListViewerProps = Readonly<{
+    data: List;
+    deleteHandler?: ItemHandler;
 }>;
 
 /**
- * This structure defines the shape of an event handler (callback) for processing a {@link SolidApp}.
+ * This structure defines the shape of an event handler (callback) for processing a {@link Item}.
  * Used here for the "remove" button in the admin interface.
  */
-type AppHandler = (app: SolidApp) => Promise<void>;
+type ItemHandler = (item: Item) => Promise<void>;
