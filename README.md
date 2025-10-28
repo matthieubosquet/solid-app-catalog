@@ -16,7 +16,8 @@ The `start:dev` command concurrently the [Community Solid Server](https://commun
 1. `npm run build`
 1. `npm run start:dev`
     - Starts LDO watching for changes to *.shaclc to regenerate Data Objects
-    - Starts next in dev mode watching for changes to *.ts http://localhost:3000
+    - Starts next in dev mode watching for changes to *.ts 
+        - Runs on http://localhost:3000
     - Starts a Community Solid Server instance
         - Runs on http://localhost:3001
         - Uses the `./data` directory for storing Solid Resources
@@ -28,8 +29,9 @@ The `start:dev` command concurrently the [Community Solid Server](https://commun
 
 Solid specifications include definitions for a [standard storage API](https://solidproject.org/TR/protocol), an [authentication mechanism](https://solidproject.org/TR/oidc) and an [access control language](https://solidproject.org/TR/acp).
 
-In Solid there are two main competing access control standards: WAC and ACP. We chose ACP.
-
 We stir away from hierarchical modelling, resource containment is designed to enable adequate access control of resources to serve functionality.
 
 Manifests resources are publicly readable resources designed for traversal needs.
+
+
+## 
