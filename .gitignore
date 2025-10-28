@@ -1,3 +1,7 @@
+# App Bootstrap
+/data
+/.env.local
+
 /src/ldo
 .next
 cookies
