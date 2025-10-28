@@ -6,6 +6,23 @@ TODO See home page for demo:
 https://github.com/matthieubosquet/solid-app-catalog/blob/7018ac5afd3f7cfabb47e3d7434777450bb3dfd6/src/app/page.tsx#L27-L31
 
 
+## Prerequisite
+
+Only the App admin can add List Items.
+
+Therefore, you need a [WebID](https://solid.github.io/webid-profile/) to correctly boot the server.
+
+A WebID is a URL you control and can use to sign in to Solid Apps.
+
+Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable in .env.local.
+
+### Creating a WebID
+
+If you don't have a WebID, you can choose from the Pod Providers listed on https://solidproject.org/get_a_pod.
+
+For example, you can signup for a WebID at https://start.inrupt.com/.
+
+
 ## Run the App
 
 To run the app locally, just use npm commands: `install`, `build` and `start:dev`.
