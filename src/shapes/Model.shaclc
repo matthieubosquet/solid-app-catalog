@@ -2,11 +2,11 @@ PREFIX : <urn:example:/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 # comment
-shape :SolidApps {
-    :app IRI @:SolidApp .
+shape :List {
+    :item IRI @:Item .
 }
 
-shape :SolidApp {
+shape :Item {
     :website IRI [0..1] .
     :name xsd:string [0..1] .
     :description xsd:string [0..1] .
