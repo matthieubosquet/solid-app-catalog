@@ -2,10 +2,6 @@
 
 This is a minimal Solid Application using [Next.js](https://nextjs.org/), [LDO](https://ldo.js.org/latest/) and [ACP](https://solidproject.org/TR/acp).
 
-TODO See home page for demo:
-https://github.com/matthieubosquet/solid-app-catalog/blob/7018ac5afd3f7cfabb47e3d7434777450bb3dfd6/src/app/page.tsx#L27-L31
-
-
 ## Prerequisite
 
 Only the App admin can add List Items.
