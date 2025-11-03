@@ -2,6 +2,7 @@
 
 This is a minimal Solid Application using [Next.js](https://nextjs.org/), [LDO](https://ldo.js.org/latest/) and [ACP](https://solidproject.org/TR/acp).
 
+
 ## Prerequisite
 
 Only the App admin can add List Items.
@@ -21,9 +22,9 @@ For example, you can signup for a WebID at https://start.inrupt.com/.
 
 ## Run the App
 
-To run the app locally, just use npm commands: `install`, `build` and `start:dev`.
+The app can be run locally using npm commands: `install`, `build` and `start:dev`.
 
-The `start:dev` command concurrently the [Community Solid Server](https://communitysolidserver.github.io/CommunitySolidServer/latest/), LDO in watch mode (to rebuild the model when changes are made), and Next in dev mode.
+The `start:dev` command concurrently runs the [Community Solid Server](https://communitysolidserver.github.io/CommunitySolidServer/latest/), LDO in watch mode (to rebuild the model when changes are made), and Next in dev mode.
 
 1. `npm i`
 1. `npm run build`
@@ -35,7 +36,6 @@ The `start:dev` command concurrently the [Community Solid Server](https://commun
         - Runs on http://localhost:3001
         - Uses the `./data` directory for storing Solid Resources
         - Has a minimal config using [ACP](https://solidproject.org/TR/acp) for access control
-
 
 
 ## Architecture
