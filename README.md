@@ -1,4 +1,4 @@
-# Demo Solid Application
+# Solid + Next.js + LDO: Demo Application
 
 This is a minimal Solid Application using [Next.js](https://nextjs.org/), [LDO](https://ldo.js.org/latest/) and [ACP](https://solidproject.org/TR/acp).
 
