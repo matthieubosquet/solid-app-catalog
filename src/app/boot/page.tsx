@@ -1,6 +1,7 @@
 import { Config } from "../../Config";
 import { getResourceInfoWithAcl } from "@inrupt/solid-client";
 import { getLinkedAcrUrl } from "@inrupt/solid-client/acp/acp";
+import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -18,8 +19,11 @@ export default async function () {
         await updateContainerAccessControl();
 
         return (
-            <>
-                <p>
+            <div className={styles.message_container}>
+                <h1 className={styles.success_title}>
+                    Bootstrap successful
+                </h1>
+                <p className={styles.message_text}>
                     Created manifest resource and modified container access
                     control.
                 </p>
@@ -27,10 +31,17 @@ export default async function () {
                     Try editing the manifest resource on the{" "}
                     <a href="admin">admin page</a>
                 </p>
-            </>
+            </div>
         );
     } catch {
-        return "Could not create manifest resource / modify container access control.";
+        return (
+            <div className={styles.message_container}>
+                <h1 className={styles.error_title}>
+                    Bootstrap failed
+                </h1>
+                <p className={styles.message_text}>Could not create manifest resource / modify container access control.</p>
+            </div>
+        );
     }
 }
 

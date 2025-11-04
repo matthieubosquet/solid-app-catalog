@@ -22,98 +22,151 @@ export function ListEditor() {
     const [newThumbnail, setNewThumbnail] = useState<File>();
     const [list, setList] = useState<List>();
     const [, setMagic] = useState("");
+    const [isFormOpen, setIsFormOpen] = useState(false);
 
     useEffect(() => {
         authenticate().then(fetchList).then(setList);
     }, []);
 
+    // Check if list is empty
+    const isListEmpty = list ? (list.item ? Array.from(list.item).length === 0 : true) : false;
+
+    useEffect(() => {
+        // Show form by default if list is empty, and keep it open
+        if (list && isListEmpty) {
+            setIsFormOpen(true);
+        }
+    }, [list, isListEmpty]);
+
     if (list) {
         return (
-            <>
-                <ListViewer data={list} deleteHandler={removeItem} />
-
-                <form onSubmit={addItem} className={style.form_cont}>
-                    <fieldset className={style.fieldset_cont}>
-                        <legend>New Item</legend>
-                        <div>
-                            <label>
-                                <span>Name</span>
-                                <input
-                                    required
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>Description</span>
-                                <input
-                                    required
-                                    value={newDescription}
-                                    onChange={(e) =>
-                                        setNewDescription(e.target.value)
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label className={style.checkbox_label}>
-                                <span>Featured</span>
-                                <input
-                                    type="checkbox"
-                                    checked={newFeatured}
-                                    onChange={(e) =>
-                                        setNewFeatured(e.target.checked)
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>Website</span>
-                                <input
-                                    required
-                                    type="url"
-                                    value={newWebsite}
-                                    onChange={(e) =>
-                                        setNewWebsite(e.target.value)
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <span>Thumbnail</span>
-                                <input
-                                    required
-                                    type="file"
-                                    onChange={(e) =>
-                                        setNewThumbnail(
-                                            e.target.files
-                                                ? e.target.files[0]
-                                                : undefined
-                                        )
-                                    }
-                                />
-                            </label>
-                        </div>
-                        <button accessKey="a">
-                            <u>a</u>dd
+            <main className={style.main_container}>
+                <section className={style.header}>
+                    <h1 className={style.title}>List Items</h1>
+                    {!isListEmpty && (
+                        <button
+                            type="button"
+                            onClick={() => setIsFormOpen(!isFormOpen)}
+                            className={style.toggle_button}
+                            aria-expanded={isFormOpen}
+                            aria-label={isFormOpen ? "Close form" : "Add new item"}
+                        >
+                            {isFormOpen ? (
+                                <>
+                                    <span>−</span> Cancel
+                                </>
+                            ) : (
+                                <>
+                                    <span>+</span> Add New Item
+                                </>
+                            )}
                         </button>
-                    </fieldset>
-                </form>
-            </>
+                    )}
+                </section>
+
+                <div className={`${style.content_wrapper} ${(!isListEmpty && isFormOpen) ? style.content_wrapper_with_form : ''}`}>
+                    {!isListEmpty && (
+                        <section className={style.list_section}>
+                            <ListViewer data={list} deleteHandler={removeItem} />
+                        </section>
+                    )}
+
+                    {(isFormOpen || isListEmpty) && (
+                        <form onSubmit={addItem} className={style.form_cont}>
+                        <fieldset className={style.fieldset_cont}>
+                            <legend className={style.form_legend}>New Item</legend>
+                            <div>
+                                <label>
+                                    <span>Name</span>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={newName}
+                                        onChange={(e) => setNewName(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>Description</span>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={newDescription}
+                                        onChange={(e) =>
+                                            setNewDescription(e.target.value)
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label className={style.checkbox_label}>
+                                    <span>Featured</span>
+                                    <input
+                                        type="checkbox"
+                                        checked={newFeatured}
+                                        onChange={(e) =>
+                                            setNewFeatured(e.target.checked)
+                                        }
+                                        aria-label="Featured item"
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>Website</span>
+                                    <input
+                                        required
+                                        type="url"
+                                        value={newWebsite}
+                                        onChange={(e) =>
+                                            setNewWebsite(e.target.value)
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <span>Thumbnail</span>
+                                    <input
+                                        required
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) =>
+                                            setNewThumbnail(
+                                                e.target.files
+                                                    ? e.target.files[0]
+                                                    : undefined
+                                            )
+                                        }
+                                        aria-label="Thumbnail image"
+                                    />
+                                </label>
+                            </div>
+                            <button
+                                type="submit"
+                                accessKey="a"
+                                className={style.submit_button}
+                            >
+                                <u>A</u>dd Item
+                            </button>
+                        </fieldset>
+                        </form>
+                    )}
+                </div>
+            </main>
         );
     } else {
         return (
-            <>
-                <p>Could not load list.</p>
-                <p>Manifest resource probably does not exist.</p>
+            <div className={style.error_container}>
+                <h1 className={style.error_title}>
+                    Could not load list
+                </h1>
+                <p className={style.error_text}>Manifest resource probably does not exist.</p>
                 <p>
                     Did you run the <a href="boot">bootstrap page</a>?
                 </p>
-            </>
+            </div>
         );
     }
 
@@ -191,6 +244,8 @@ export function ListEditor() {
         setNewDescription("");
         setNewFeatured(false);
         setNewWebsite("");
+        setNewThumbnail(undefined);
+        setIsFormOpen(false);
         // TODO: How to reset new thumbnail input?
 
         save();
