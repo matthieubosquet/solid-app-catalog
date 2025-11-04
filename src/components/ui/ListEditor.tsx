@@ -12,6 +12,7 @@ import { List, Item } from "../../ldo/Model.typings";
 import { Config } from "../../Config";
 import { ListViewer } from "../../components/ui/ListViewer";
 import { fetchList } from "../../fetchList";
+import style from "../../styles/ListEditorStyle.module.css";
 
 export function ListEditor() {
     const [newName, setNewName] = useState("");
@@ -31,12 +32,12 @@ export function ListEditor() {
             <>
                 <ListViewer data={list} deleteHandler={removeItem} />
 
-                <form onSubmit={addItem}>
-                    <fieldset>
-                        <legend>new item</legend>
+                <form onSubmit={addItem} className={style.form_cont}>
+                    <fieldset className={style.fieldset_cont}>
+                        <legend>New Item</legend>
                         <div>
                             <label>
-                                <span>name</span>
+                                <span>Name</span>
                                 <input
                                     required
                                     value={newName}
@@ -46,7 +47,7 @@ export function ListEditor() {
                         </div>
                         <div>
                             <label>
-                                <span>description</span>
+                                <span>Description</span>
                                 <input
                                     required
                                     value={newDescription}
@@ -57,8 +58,8 @@ export function ListEditor() {
                             </label>
                         </div>
                         <div>
-                            <label>
-                                <span>featured</span>
+                            <label className={style.checkbox_label}>
+                                <span>Featured</span>
                                 <input
                                     type="checkbox"
                                     checked={newFeatured}
@@ -70,7 +71,7 @@ export function ListEditor() {
                         </div>
                         <div>
                             <label>
-                                <span>website</span>
+                                <span>Website</span>
                                 <input
                                     required
                                     type="url"
@@ -83,7 +84,7 @@ export function ListEditor() {
                         </div>
                         <div>
                             <label>
-                                <span>thumbnail</span>
+                                <span>Thumbnail</span>
                                 <input
                                     required
                                     type="file"

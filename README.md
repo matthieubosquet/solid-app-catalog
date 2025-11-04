@@ -11,7 +11,16 @@ Therefore, you need a [WebID](https://solid.github.io/webid-profile/) to correct
 
 A WebID is a URL you control and can use to sign in to Solid Apps.
 
-Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable in .env.local.
+Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable in `.env.local`.
+
+Environment variables
+---------------------
+
+This project includes a `.env.example` file with the placeholders for environment variables used by the app (for example `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`).
+
+Copy the example to a local env file and edit values before running the app
+
+Note: `.env` and `.env.local` are ignored by git by default (see `.gitignore`), so you can keep private credentials locally without committing them. The `.env.example` file is safe to commit and documents which variables are required.
 
 ### Creating a WebID
 
