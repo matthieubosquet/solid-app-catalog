@@ -1,0 +1,45 @@
+.form_cont {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.fieldset_cont {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 8px;
+    padding: 20px 16px;
+}
+
+.checkbox_label {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 8px;
+}
+
+.fieldset_cont label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fieldset_cont label span {
+    font-weight: 600;
+    color: #333;
+}
+
+.fieldset_cont input[type="text"],
+.fieldset_cont input[type="url"],
+.fieldset_cont input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
