@@ -62,3 +62,11 @@ Solid specifications include definitions for a [standard storage API](https://so
 We stir away from hierarchical modelling, resource containment is designed to enable adequate access control of resources to serve functionality.
 
 Manifests resources are publicly readable resources designed for traversal needs.
+
+
+## License
+
+This work is dual-licensed under MIT and Apache 2.0.
+You can choose between one of them if you use this work.
+
+`SPDX-License-Identifier: MIT OR Apache-2.0`
