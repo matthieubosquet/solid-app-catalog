@@ -32,4 +32,13 @@ export class Config {
 
         return value;
     }
+
+    public static get oidcIssuer(): string {
+        const value = process.env.NEXT_PUBLIC_OIDC_ISSUER;
+        if (value === undefined) {
+            throw new Error(`${errorTemplate}NEXT_PUBLIC_OIDC_ISSUER`);
+        }
+
+        return value;
+    }
 }
