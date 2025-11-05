@@ -13,20 +13,19 @@ A WebID is a URL you control and can use to sign in to Solid Apps.
 
 Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable in `.env.local`.
 
-Environment variables
----------------------
-
-This project includes a `.env.example` file with the placeholders for environment variables used by the app (for example `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`).
-
-Copy the example to a local env file and edit values before running the app
-
-Note: `.env` and `.env.local` are ignored by git by default (see `.gitignore`), so you can keep private credentials locally without committing them. The `.env.example` file is safe to commit and documents which variables are required.
-
 ### Creating a WebID
 
 If you don't have a WebID, you can choose from the Pod Providers listed on https://solidproject.org/get_a_pod.
 
 For example, you can signup for a WebID at https://start.inrupt.com/.
+
+## Setting Environment Variables
+
+This project includes a `.env.example` file with the placeholders for environment variables used by the app: `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`.
+
+Copy the `.env.example` to `.env.local` and edit the values before running the app.
+
+Note: `.env` and `.env.local` are ignored by git by default (see `.gitignore`), so you can keep private credentials locally without committing them. The `.env.example` file is safe to commit and documents which variables are required.
 
 
 ## Run the App
@@ -54,6 +53,3 @@ Solid specifications include definitions for a [standard storage API](https://so
 We stir away from hierarchical modelling, resource containment is designed to enable adequate access control of resources to serve functionality.
 
 Manifests resources are publicly readable resources designed for traversal needs.
-
-
-## 
