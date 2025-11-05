@@ -4,7 +4,8 @@ import type { List } from "./ldo/Model.typings";
 import { Config } from "./Config";
 
 /**
- * TODO: Description
+ * This fetches the resource manifest
+ * The resource manifest holds links to all list items
  */
 export async function fetchList(): Promise<List> {
     // Construct a URL for the Solid resource.
@@ -12,7 +13,7 @@ export async function fetchList(): Promise<List> {
     // local part (like file.ext)
     const uri = new URL(Config.manifestResourceUri, Config.baseUri);
 
-    // TODO: explain formats, link to ldo docs, n3 docs
+    // We accept well known RDF syntax; turtle is a common default
     const response = await fetch(uri, {
         headers: {
             Accept: "text/turtle, application/trig, application/n-triples, application/n-quads, text/n3",
@@ -27,10 +28,10 @@ export async function fetchList(): Promise<List> {
 
     const rdf = await response.text();
 
-    // TODO: describe why baseuri
+    // BaseIRI used to parse relative URIs
     const options = { baseIRI: Config.baseUri };
 
-    // TODO: describe ldo
+    // Convert Raw RDF into a Linked Data Object. See: https://ldo.js.org/latest/guides/raw_rdf/
     const dataset = await parseRdf(rdf, options);
 
     return dataset.usingType(ListShapeType).fromSubject("urn:example:list");

@@ -2,6 +2,7 @@
 
 This is a minimal Solid Application using [Next.js](https://nextjs.org/), [LDO](https://ldo.js.org/latest/) and [ACP](https://solidproject.org/TR/acp).
 
+This app is meant to help developers get started developing for Solid. The code is commented to help understand the development patterns.
 
 ## Prerequisite
 
@@ -11,26 +12,22 @@ Therefore, you need a [WebID](https://solid.github.io/webid-profile/) to correct
 
 A WebID is a URL you control and can use to sign in to Solid Apps.
 
-Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` and `NEXT_PUBLIC_OIDC_ISSUER` environment variable in `.env.local`.
-
-Environment variables
----------------------
-
-This project includes a `.env.example` file with the placeholders for environment variables used by the app:
-- `NEXT_PUBLIC_BASE_URI` - Base URI for the Solid server
-- `NEXT_PUBLIC_MANIFEST_RESOURCE_URI` - URI for the manifest resource
-- `NEXT_PUBLIC_ADMIN_WEBID` - WebID of the admin user
-- `NEXT_PUBLIC_OIDC_ISSUER` - OIDC issuer URL for authentication (e.g., `https://login.inrupt.com`)
-
-Copy the example to a local env file and edit values before running the app
-
-Note: `.env` and `.env.local` are ignored by git by default (see `.gitignore`), so you can keep private credentials locally without committing them. The `.env.example` file is safe to commit and documents which variables are required.
-
 ### Creating a WebID
 
 If you don't have a WebID, you can choose from the Pod Providers listed on https://solidproject.org/get_a_pod.
 
 For example, you can signup for a WebID at https://start.inrupt.com/.
+
+
+## Setting Environment Variables
+
+Before running the app, you need to set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable.
+
+This project includes a `.env.example` file with placeholders for the environment variables used by the app: `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`.
+
+Copy the `.env.example` to `.env` and edit the values before running the app.
+
+Note: `.env` and `.env.local` are ignored by git (see `.gitignore`).
 
 
 ## Run the App
@@ -58,6 +55,3 @@ Solid specifications include definitions for a [standard storage API](https://so
 We stir away from hierarchical modelling, resource containment is designed to enable adequate access control of resources to serve functionality.
 
 Manifests resources are publicly readable resources designed for traversal needs.
-
-
-## 

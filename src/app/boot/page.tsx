@@ -102,6 +102,7 @@ async function updateContainerAccessControl() {
 const defaultAcrAcpRdf = `PREFIX acl: <http://www.w3.org/ns/auth/acl#>
 PREFIX : <http://www.w3.org/ns/solid/acp#>
 
+# This gives full access to everyone but denies Write and control for anyone but the admin
 [
     :resource <.> ;
     :accessControl [

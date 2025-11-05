@@ -1,7 +1,7 @@
 PREFIX : <urn:example:/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-# comment
+# This is the way LDO describes the shape of data using the following syntax: https://w3c.github.io/shacl/shacl-compact-syntax/
 shape :List {
     :item IRI @:Item .
 }
