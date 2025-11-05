@@ -102,35 +102,32 @@ async function updateContainerAccessControl() {
 const defaultAcrAcpRdf = `PREFIX acl: <http://www.w3.org/ns/auth/acl#>
 PREFIX : <http://www.w3.org/ns/solid/acp#>
 
-# This applies the public policy and admin policy to:
-# - the application's root container (via accessControl)
-# - its children (via memberAccessControl)
+
 [
     :resource <.> ;
     :accessControl [
-        :apply _:public, _:admin ;
+        :apply _:public ;
+        :apply [
+            :deny acl:Write, acl:Control ;
+            :noneOf _:me ;
+        ] ;
     ] ;
     :memberAccessControl [
-        :apply _:public, _:admin ;
+        :apply _:public ;
+        :apply [
+            :deny acl:Write ;
+            :noneOf _:me ;
+        ] ;
     ] ;
 ] .
 
-# This policy grants public read
 _:public
-    :allow acl:Read ;
+    :allow acl:Read, acl:Write, acl:Control ;
     :anyOf [
         :agent :PublicAgent ;
     ] ;
 .
 
-# This policy grants full access to _:me (the admin)
-_:admin
-    :allow acl:Read, acl:Write, acl:Control ;
-    :anyOf [
-        :agent _:me ;
-    ] ;
-.
-
-# This is the Application administrator, the only agent with full access to the Solid resources
+# TODO: describe, also describe robust policy design
 _:me :agent <${Config.adminWebID}> .
 `;
