@@ -9,17 +9,15 @@ export function ListViewer({
     data,
     deleteHandler,
 }: ListViewerProps): React.ReactNode {
-    // TODO: describe
-    const render = (item: Item) => renderItem(item, deleteHandler);
+    // Convert LdSet to array to use standard Array.map() with index support
+    // LdSet.map() has different signature (value, set) instead of (value, index)
+    const itemsArray = data.item ? Array.from(data.item) : [];
+    const items = itemsArray.map((item, index) => renderItem(item, deleteHandler, index));
 
-    // TODO: describe why item is nullable
-    const items = data.item?.map(render);
-
-    // TODO: describe
     return <ul className={style.list}>{items}</ul>;
 }
 
-function renderItem(item: Item, deleteHandler?: ItemHandler): React.ReactNode {
+function renderItem(item: Item, deleteHandler?: ItemHandler, index?: number): React.ReactNode {
     // TODO: Describe why these are nullable
     if (!item.website) {
         throw new Error("website is required");
@@ -28,13 +26,15 @@ function renderItem(item: Item, deleteHandler?: ItemHandler): React.ReactNode {
         throw new Error("thumbnail is required");
     }
 
-    // TODO: descripbe @id
     const website = item.website["@id"];
     const thumbnail = item.thumbnail["@id"];
+    
+    // Fixed: Use unique key to prevent React duplicate key errors
+    // Prefer item's @id, fallback to thumbnail (unique per item), then index as last resort
+    const uniqueKey = item["@id"] || thumbnail || `item-${index}`;
 
     return (
-        // TODO: Assume website is unique
-        <li key={website} className={style.list_item}>
+        <li key={uniqueKey} className={style.list_item}>
             <dl className={style.item_details}>
                 <div className={style.detail_row}>
                     <dt>name</dt>

@@ -5,29 +5,28 @@
     margin: 0 auto;
     background: white;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .success_title {
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #7c3aed;
+    color: #000;
 }
 
 .error_title {
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #ef4444;
+    color: #000;
 }
 
 .message_text {
-    color: #6b7280;
+    color: #000;
     margin-bottom: 1rem;
 }
 
 .message_text:last-child {
     margin-bottom: 0;
 }
-
