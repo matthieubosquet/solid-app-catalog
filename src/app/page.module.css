@@ -1,0 +1,35 @@
+/* Page Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page_title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: #7c3aed;
+    letter-spacing: -0.02em;
+}
+
+.error_container {
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.error_title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ef4444;
+}
+
+.error_text {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+

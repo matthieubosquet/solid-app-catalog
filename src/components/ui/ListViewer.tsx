@@ -1,4 +1,5 @@
 import type { Item, List } from "../../ldo/Model.typings";
+import style from "../../styles/ListEditorStyle.module.css";
 
 /**
  * This is a React component for displaying a list of items.
@@ -15,7 +16,7 @@ export function ListViewer({
     const items = data.item?.map(render);
 
     // TODO: describe
-    return <ul>{items}</ul>;
+    return <ul className={style.list}>{items}</ul>;
 }
 
 function renderItem(item: Item, deleteHandler?: ItemHandler): React.ReactNode {
@@ -33,41 +34,48 @@ function renderItem(item: Item, deleteHandler?: ItemHandler): React.ReactNode {
 
     return (
         // TODO: Assume website is unique
-        <li key={website}>
-            <dl>
-                <div>
+        <li key={website} className={style.list_item}>
+            <dl className={style.item_details}>
+                <div className={style.detail_row}>
                     <dt>name</dt>
                     <dd>{item.name}</dd>
                 </div>
-                <div>
+                <div className={style.detail_row}>
                     <dt>description</dt>
                     <dd>{item.description}</dd>
                 </div>
-                <div>
+                <div className={style.detail_row}>
                     <dt>featured</dt>
                     <dd>
                         <input
                             type="checkbox"
                             checked={item.featured}
                             disabled
+                            aria-label="Featured item"
                         />
                     </dd>
                 </div>
-                <div>
+                <div className={style.detail_row}>
                     <dt>website</dt>
                     <dd>
-                        <a href={website}>{website}</a>
+                        <a href={website} className={style.link}>{website}</a>
                     </dd>
                 </div>
-                <div>
+                <div className={style.detail_row}>
                     <dt>thumbnail</dt>
                     <dd>
-                        <img src={thumbnail} />
+                        <img src={thumbnail} alt={`Thumbnail for ${item.name || 'item'}`} className={style.thumbnail} />
                     </dd>
                 </div>
             </dl>
             {deleteHandler && (
-                <button onClick={() => deleteHandler(item)}>remove</button>
+                <button
+                    onClick={() => deleteHandler(item)}
+                    className={style.remove_button}
+                    aria-label={`Remove ${item.name || 'item'}`}
+                >
+                    remove
+                </button>
             )}
         </li>
     );
