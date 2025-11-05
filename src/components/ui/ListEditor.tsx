@@ -178,7 +178,7 @@ export function ListEditor() {
             console.log("unauthenticated");
 
             await login({
-                oidcIssuer: "https://login.inrupt.com", // TODO: config
+                oidcIssuer: Config.oidcIssuer,
                 clientName: "My application",
             });
         }
