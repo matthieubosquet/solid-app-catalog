@@ -64,6 +64,11 @@ We stir away from hierarchical modelling, resource containment is designed to en
 Manifests resources are publicly readable resources designed for traversal needs.
 
 
+## Acknowledgement
+
+Thanks to imec and the SolidLab Flanders for [developing the CSS](https://solidlab.be/community-solid-server/).
+
+
 ## License
 
 This work is dual-licensed under MIT and Apache 2.0.
