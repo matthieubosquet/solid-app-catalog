@@ -21,11 +21,18 @@ For example, you can signup for a WebID at https://start.inrupt.com/.
 
 ## Setting Environment Variables
 
-Before running the app, you need to set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable.
+Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` and `NEXT_PUBLIC_OIDC_ISSUER` environment variable in `.env.local`.
 
-This project includes a `.env.example` file with placeholders for the environment variables used by the app: `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`.
+Environment variables
+---------------------
 
-Copy the `.env.example` to `.env` and edit the values before running the app.
+This project includes a `.env.example` file with the placeholders for environment variables used by the app:
+- `NEXT_PUBLIC_BASE_URI` - Base URI for the Solid server
+- `NEXT_PUBLIC_MANIFEST_RESOURCE_URI` - URI for the manifest resource
+- `NEXT_PUBLIC_ADMIN_WEBID` - WebID of the admin user
+- `NEXT_PUBLIC_OIDC_ISSUER` - OIDC issuer URL for authentication (e.g., `https://login.inrupt.com`)
+
+Copy the example to a local env file and edit values before running the app
 
 Note: `.env` and `.env.local` are ignored by git (see `.gitignore`).
 
