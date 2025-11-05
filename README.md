@@ -2,6 +2,7 @@
 
 This is a minimal Solid Application using [Next.js](https://nextjs.org/), [LDO](https://ldo.js.org/latest/) and [ACP](https://solidproject.org/TR/acp).
 
+This app is meant to help developers get started developing for Solid. The code is commented to help understand the development patterns.
 
 ## Prerequisite
 
@@ -11,21 +12,22 @@ Therefore, you need a [WebID](https://solid.github.io/webid-profile/) to correct
 
 A WebID is a URL you control and can use to sign in to Solid Apps.
 
-Before running the app, set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable in `.env.local`.
-
 ### Creating a WebID
 
 If you don't have a WebID, you can choose from the Pod Providers listed on https://solidproject.org/get_a_pod.
 
 For example, you can signup for a WebID at https://start.inrupt.com/.
 
+
 ## Setting Environment Variables
 
-This project includes a `.env.example` file with the placeholders for environment variables used by the app: `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`.
+Before running the app, you need to set the `NEXT_PUBLIC_ADMIN_WEBID` environment variable.
 
-Copy the `.env.example` to `.env.local` and edit the values before running the app.
+This project includes a `.env.example` file with placeholders for the environment variables used by the app: `NEXT_PUBLIC_BASE_URI`, `NEXT_PUBLIC_MANIFEST_RESOURCE_URI`, and `NEXT_PUBLIC_ADMIN_WEBID`.
 
-Note: `.env` and `.env.local` are ignored by git by default (see `.gitignore`), so you can keep private credentials locally without committing them. The `.env.example` file is safe to commit and documents which variables are required.
+Copy the `.env.example` to `.env` and edit the values before running the app.
+
+Note: `.env` and `.env.local` are ignored by git (see `.gitignore`).
 
 
 ## Run the App
