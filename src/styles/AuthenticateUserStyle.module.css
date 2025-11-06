@@ -1,0 +1,134 @@
+/* Authenticate User Component Styles */
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 4rem);
+    padding: 2rem;
+}
+
+.card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+}
+
+.description {
+    color: #000;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label_text {
+    font-weight: 600;
+    color: #000;
+    font-size: 0.95rem;
+}
+
+.select {
+    padding: 0.875rem 1rem;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #6f6d6d;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.login_button {
+    padding: 1rem 2rem;
+    background: black;
+    color: #fff;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login_button:hover:not(:disabled) {
+    background: #000;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login_button:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.login_button:active:not(:disabled) {
+    background: #333;
+    color: white;
+}
+
+.login_button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 2rem;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 1.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+}
+

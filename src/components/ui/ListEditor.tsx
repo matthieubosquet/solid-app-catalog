@@ -2,11 +2,7 @@
 
 import type { FormEvent } from "react";
 import { toTurtle } from "@ldo/ldo";
-import {
-    login,
-    getDefaultSession,
-    handleIncomingRedirect,
-} from "@inrupt/solid-client-authn-browser";
+import { getDefaultSession, handleIncomingRedirect } from "@inrupt/solid-client-authn-browser";
 import { useEffect, useState } from "react";
 import { List, Item } from "../../ldo/Model.typings";
 import { Config } from "../../Config";
@@ -25,7 +21,23 @@ export function ListEditor() {
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     useEffect(() => {
-        authenticate().then(fetchList).then(setList);
+        async function initialize() {
+            // Handle redirect after authentication
+            await handleIncomingRedirect();
+            const session = getDefaultSession();
+            
+            // Only proceed if authenticated
+            if (session.info.isLoggedIn) {
+                try {
+                    const fetchedList = await fetchList();
+                    setList(fetchedList);
+                } catch (error) {
+                    console.error("Failed to fetch list:", error);
+                }
+            }
+        }
+        
+        initialize();
     }, []);
 
     // Check if list is empty
@@ -170,19 +182,6 @@ export function ListEditor() {
         );
     }
 
-    async function authenticate() {
-        await handleIncomingRedirect();
-        const session = getDefaultSession();
-
-        if (!session.info.isLoggedIn) {
-            console.log("unauthenticated");
-
-            await login({
-                oidcIssuer: Config.oidcIssuer,
-                clientName: "My application",
-            });
-        }
-    }
 
     async function save() {
         if (!list) {
